@@ -6,6 +6,18 @@ import Signup from '../pages/Signup'
 import ForgotPassword from '../pages/ForgotPassword'
 import Profile from '../pages/Profile'
 import ProjectPage from '../pages/ProjectPage'
+import TeacherCourses from '../pages/TeacherCourses'
+import TeacherPayments from '../pages/TeacherPayments'
+import TeacherReviews from '../pages/TeacherReviews'
+import TeacherPermissions from '../pages/TeacherPermission'
+import TeacherSettings from '../pages/TeacherSettings'
+import ViewCourse from '../pages/ViewCourse'
+import TeacherDashboard from '../pages/TeacherDashboard'
+import TeacherLayouts from '../components/layouts/TeacherLayout'
+import AddCourse from '../pages/AddCourse'
+import TeacherQuizzes from '../pages/TeacherQuizzes'
+import TeacherStudents from '../pages/TeacherStudents'
+import TeacherTeam from '../pages/TeacherTeam'
 
 export default function AppRoutes() {
   return (
@@ -20,6 +32,22 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute requiredPermission="project:view" />}>
         <Route path="/projects/:id" element={<ProjectPage />} />
       </Route>
+       {/* Teacher Routes */}
+      {/* <Route element={<ProtectedRoute requiredPermission="teacher:access" />}> */}
+        <Route element={<TeacherLayouts />}>
+          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+          <Route path="/teacher/courses" element={<TeacherCourses />} />
+          <Route path="/teacher/courses/add" element={<AddCourse />} />
+          <Route path="/teacher/courses/:id" element={<ViewCourse />} />
+          <Route path="/teacher/quizes" element={<TeacherQuizzes />} />
+          <Route path="/teacher/students" element={<TeacherStudents />} />
+          <Route path="/teacher/my_team" element={<TeacherTeam />} />
+          <Route path="/teacher/payments" element={<TeacherPayments />} />
+          <Route path="/teacher/rating_and_reviews" element={<TeacherReviews />} />
+          <Route path="/teacher/permissions" element={<TeacherPermissions />} />
+          <Route path="/teacher/settings" element={<TeacherSettings />} />
+        </Route>
+      {/* </Route> */}
     </Routes>
   )
 }

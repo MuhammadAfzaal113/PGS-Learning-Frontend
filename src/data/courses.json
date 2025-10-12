@@ -1,0 +1,20 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "Introduction to React",
+      "description": "Learn the basics of React.js and modern web development",
+      "coverImage": "/course-images/react-basics.jpg",
+      "language": "English",
+      "price": 49.99,
+      "students": 30,
+      "whatYoullLearn": [
+        "Understand React fundamentals",
+        "Build modern user interfaces",
+        "State management with hooks",
+        "Routing and navigation"
+      ],
+      "createdAt": "2025-10-01"
+    }
+  ]
+}
