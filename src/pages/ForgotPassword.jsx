@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
             {/* Login Link */}
             <p className="text-center text-sm text-gray-600">
               Remember your password?{" "}
-              <button className="text-purple-700 hover:text-purple-800 font-medium">
+              <button className="text-purple-700 hover:text-purple-800 font-medium" onClick={() => window.location.href = '/login'}>
                 Login to Account
               </button>
             </p>

@@ -17,9 +17,9 @@ const TeacherSidebar = () => {
   ];
 
 return (
-    <div className="bg-black w-64 shadow-lg rounded-lg border border-gray-300" style={{ height: '91vh'}}>
+    <div className="bg-black w-56 shadow-lg rounded-lg border border-gray-300" style={{ height: '91vh'}}>
         <div className="p-4">
-            <h2 className="text-2xl font-bold text-white">Pro Genius Student</h2>
+            <h4 className="text-[20px]/[100%] font-[600] text-white">Pro Genius Student</h4>
         </div>
         <div className="block sm:hidden">
                            <input
@@ -30,13 +30,13 @@ return (
                     className="bg-white text-gray-800 ml-10 px-2 py-3 border rounded"
                 />
                         </div>
-        <nav className="mt-4 p-5">
+        <nav className="  side-nav-container">
             {navLinks.map((link) => (
                 <Link
                     key={link.path}
                     to={link.path}
-                    className={`flex items-center px-4 py-3 text-white hover:bg-[#924dbf] hover:text-white rounded-lg border ${
-                        location.pathname === link.path ? 'bg-[#7338a0] border-[#7338a0]' : 'border-transparent'
+                    className={`flex h-[40px] w-[192px] items-center py-3 text-white hover:bg-[#924dbf] hover:text-white rounded-lg border ${
+                        location.pathname === link.path ? 'bg-[#664286] border-[#664286]' : 'border-transparent'
                     }`}
                 >
                     <span className="mr-3">{link.icon}</span>

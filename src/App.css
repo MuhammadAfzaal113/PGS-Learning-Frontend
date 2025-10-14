@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.side-nav-container {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}

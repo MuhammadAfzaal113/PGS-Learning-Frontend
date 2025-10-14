@@ -1,13 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import signinImg from '../../assets/sign-in.jpg'
 import { Link } from 'react-router-dom'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const DEFAULT_EMAIL = 'teacher@gmail.com';
+  const DEFAULT_PASSWORD = 'teacher';
+
+  const [email, setEmail] = useState(DEFAULT_EMAIL);
+  const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  // If a user is already stored and has role 'teacher', redirect to dashboard
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('user');
+      if (raw) {
+        const stored = JSON.parse(raw);
+        if (stored && stored.role === 'teacher') {
+          navigate('/teacher/dashboard');
+        }
+      }
+    } catch (e) {
+      // ignore parse/storage errors
+    }
+  }, [navigate]);
+
+  // Show an error message if user edits the prefilled credentials
+  useEffect(() => {
+    if (email !== DEFAULT_EMAIL || password !== DEFAULT_PASSWORD) {
+      setError('You modified the prefilled credentials. Please verify email and password before logging in.');
+    } else {
+      setError('');
+    }
+  }, [email, password]);
 
   const handleLogin = () => {
     setError('');
@@ -17,7 +46,17 @@ export default function LoginPage() {
       return;
     }
 
-    console.log('Login attempted with:', { email, password, rememberMe });
+    // Persist user data to localStorage with role 'teacher'
+    try {
+      const user = { email, role: 'teacher' };
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (e) {
+      // ignore storage errors
+      console.warn('Failed to save user to localStorage', e);
+    }
+
+    // Optionally navigate to teacher dashboard
+    navigate('/teacher/dashboard');
   };
 
   return (

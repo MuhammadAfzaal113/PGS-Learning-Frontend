@@ -78,7 +78,7 @@ export default function Signup() {
 
             <p className="text-sm text-center text-gray-600">
               Already have an account?{" "}
-              <a href="#" className="text-[#C24C99] font-medium">
+              <a href="#" className="text-[#C24C99] font-medium" onClick={() => window.location.href = '/login'}>
                 Login to Your Account
               </a>
             </p>
