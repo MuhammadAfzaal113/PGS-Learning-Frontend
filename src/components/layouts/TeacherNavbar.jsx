@@ -125,7 +125,12 @@ const TeacherNavbar = () => {
                                     className="block w-full text-left hover:bg-gray-100 hover:text-black"
                                     onClick={() => {
                                         setDropdownOpen(false);
-                                        navigate('/logout');
+                                        try {
+                                            localStorage.removeItem('user');
+                                        } catch (e) {
+                                            // ignore storage errors
+                                        }
+                                        navigate('/login');
                                     }}
                                 >
                                     Logout

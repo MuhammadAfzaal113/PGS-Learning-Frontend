@@ -1,9 +1,45 @@
 import React from 'react';
+import DataTable from '../components/common/DataTable';
 
 const TeacherStudents = () => {
+    const studentsData = [
+    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Cody Fisher', avatar: '👨', courses: '07', email: 'codyfisher@example.com', phone: '(808) 555-0111', location: 'Corona, Michigan', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
+
+  ];
+
+  const studentsColumns = [
+    { header: 'ID', key: 'id', className: 'text-[#424242]' },
+    { 
+      header: 'Name', 
+      key: 'name',
+      render: (row) => (
+        <div className="flex items-center gap-2">
+          <span className=" rounded-full bg-gray-200 flex items-center justify-center">{row.avatar}</span>
+          <span className="text-[#424242]">{row.name}</span>
+        </div>
+      )
+    },
+    { header: 'Courses Purchased', key: 'courses', className: 'text-[#424242]' },
+    { header: 'Email', key: 'email', className: 'text-[#424242]' },
+    { header: 'Phone', key: 'phone', className: 'text-[#424242]' },
+    { header: 'Location', key: 'location', className: 'text-[#424242]' },
+    { header: 'Registered On', key: 'registeredOn', className: 'text-[#424242]' },
+    {
+      header: '',
+      key: 'actions',
+      render: () => (
+        <button className="text-gray-400 hover:text-gray-600">⋮</button>
+      )
+    }
+  ];
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Students</h1>
+    <div className="">
+      {/* <h1 className="text-2xl font-bold mb-6">Students</h1>
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="overflow-x-auto">
           <table className="min-w-full">
@@ -35,7 +71,16 @@ const TeacherStudents = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
+      <DataTable
+        title="Students"
+        columns={studentsColumns}
+        data={studentsData}
+        showSearch={true}
+        showSortBy={true}
+        searchPlaceholder="Search"
+        showPagination={true}
+      />
     </div>
   );
 };

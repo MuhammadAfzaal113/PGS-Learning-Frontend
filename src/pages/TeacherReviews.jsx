@@ -1,9 +1,47 @@
 import React from 'react';
+import DataTable from '../components/common/DataTable';
 
 const TeacherReviews = () => {
+  const sample = [
+    { id: 1, reviewBy: 'Alice Johnson', avatar: '👨', rating: 5, review: 'Great course!', course: 'Principles of UI Design', dateReview: 'Sep 28, 2025' },
+    { id: 2, reviewBy: 'Brian Smith', avatar: '👨', rating: 4, review: 'Very helpful.', course: 'Principles of UI Design', dateReview: 'Sep 28, 2025' },
+    { id: 3, reviewBy: 'Carla Gomez', avatar: '👩', rating: 3, review: 'Could use more examples.', course: 'Basics of Python', dateReview: 'Sep 28, 2025' },
+  ];
+
+  const rows =  sample;
+
+  const columns = [
+      { header: 'ID', key: 'id', className: 'text-[#424242]' },
+    { 
+      header: 'Review By', 
+      key: 'reviewBy',
+      render: (row) => (
+        <div className="flex items-center gap-2">
+          <span className=" rounded-full bg-gray-200 flex items-center justify-center">{row.avatar}</span>
+          <span className="text-[#424242]">{row.reviewBy}</span>
+        </div>
+      )
+    },
+      { header: 'Course', key: 'course', className: 'text-[#424242]' },
+
+    {
+      header: 'Rating',
+      key: 'rating',
+      cell: (row) => Array.from({ length: row.rating }).map((_, i) => '★').join(''),
+    },
+    { header: 'Review', key: 'review', className: 'text-[#424242]' },
+    { header: 'Date Review', key: 'dateReview', className: 'text-[#424242]' },
+    {
+      header: '',
+      key: 'actions',
+      render: () => (
+        <button className="text-gray-400 hover:text-gray-600">⋮</button>
+      )
+    }
+  ];
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Ratings & Reviews</h1>
+      {/* <h1 className="text-2xl font-bold mb-6">Ratings & Reviews</h1>
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="mb-6">
           <div className="flex items-center space-x-4">
@@ -21,7 +59,7 @@ const TeacherReviews = () => {
                   </div>
                   <span className="text-sm w-12">80%</span>
                 </div>
-                {/* Add more rating bars here */}
+              
               </div>
             </div>
           </div>
@@ -44,7 +82,17 @@ const TeacherReviews = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <DataTable
+        title="Rating & Reviews"
+        columns={columns} 
+        data={rows}
+        showSearch={true}
+        showStatus={true}
+        showSortBy={true}
+        searchPlaceholder="Search"
+        showPagination={true} 
+      />
     </div>
   );
 };
