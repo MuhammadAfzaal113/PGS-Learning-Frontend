@@ -93,10 +93,8 @@ const TeacherNavbar = () => {
                     <div className='hidden sm:block'>
                         <input
                             type="text"
-                            value={search}
-                            onChange={e => setsearch(e.target.value)}
-                            placeholder="Search something..."
-                            className="bg-white text-gray-800 ml-10 px-2 py-1 border rounded"
+                            placeholder="Search anything..."
+                            className="px-4 py-2 border border-gray-300 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
                     </div>
                     <button className="p-2 bg-gray-100 rounded-full">

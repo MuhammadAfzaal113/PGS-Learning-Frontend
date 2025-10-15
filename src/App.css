@@ -5,7 +5,7 @@
   /* text-align: center; */
 }
 
-.logo {
+/* .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
@@ -39,7 +39,7 @@
 
 .read-the-docs {
   color: #888;
-}
+} */
 
 .side-nav-container {
     padding-left: 16px;
@@ -49,4 +49,9 @@
     gap: 8px;
     display: flex;
     flex-direction: column;
+}
+.reviewName{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 130%;
 }

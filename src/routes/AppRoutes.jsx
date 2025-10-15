@@ -16,6 +16,8 @@ import TeacherDashboard from '../pages/TeacherDashboard'
 import TeacherLayouts from '../components/layouts/TeacherLayout'
 import AddCourse from '../pages/AddCourse'
 import TeacherQuizzes from '../pages/TeacherQuizzes'
+import CreateQuiz from '../pages/CreateQuiz'
+import QuizDetail from '../pages/QuizDetail'
 import TeacherStudents from '../pages/TeacherStudents'
 import TeacherTeam from '../pages/TeacherTeam'
 
@@ -40,6 +42,8 @@ export default function AppRoutes() {
           <Route path="/teacher/courses/add" element={<AddCourse />} />
           <Route path="/teacher/courses/:id" element={<ViewCourse />} />
           <Route path="/teacher/quizes" element={<TeacherQuizzes />} />
+          <Route path="/teacher/quizes/create" element={<CreateQuiz />} />
+          <Route path="/teacher/quizes/detail" element={<QuizDetail />} />
           <Route path="/teacher/students" element={<TeacherStudents />} />
           <Route path="/teacher/my_team" element={<TeacherTeam />} />
           <Route path="/teacher/payments" element={<TeacherPayments />} />
