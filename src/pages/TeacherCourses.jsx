@@ -100,6 +100,7 @@ const TeacherCourses = () => {
             showStatus={true}
             showAddButton={true}
             addButtonText="Add Course"
+            onAdd={() => {navigate('/teacher/courses/add');}}
             searchPlaceholder="Search"
             showPagination={true}
           />

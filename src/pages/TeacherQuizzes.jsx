@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from '../components/common/DataTable';
+import { useNavigate } from 'react-router-dom';
 
 const TeacherQuizzes = () => { const coursesData = [
     { id: '564566', title: 'Principles of UI Design', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
@@ -53,6 +54,8 @@ const TeacherQuizzes = () => { const coursesData = [
     }
   ];
 
+  const navigate = useNavigate();
+
   return (
     <DataTable
       title="Quizzes"
@@ -63,6 +66,7 @@ const TeacherQuizzes = () => { const coursesData = [
       showStatus={true}
       showAddButton={true}
       addButtonText="create Quiz"
+      onAdd={() => navigate('/teacher/quizes/create')}
       searchPlaceholder="Search"
       showPagination={true}
     />

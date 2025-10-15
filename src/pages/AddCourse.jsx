@@ -168,7 +168,8 @@ const AddCourse = () => {
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-[#7338a0] text-white rounded-md hover:bg-blue-700"
+              className="px-6 py-2 bg-[#7338a0] text-white rounded-md hover:bg-[#7338a0]"
+              onClick={() => {navigate('/teacher/courses/addTwo');}}
             >
               Continue
             </button>

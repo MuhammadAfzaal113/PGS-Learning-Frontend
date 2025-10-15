@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DataTable from '../components/common/DataTable';
 
 const TeacherReviews = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
+
+  const handleRowClick = (review) => {
+    setSelectedReview(review);
+    setShowModal(true);
+  };
+
   const sample = [
     { id: 1, reviewBy: 'Alice Johnson', avatar: '👨', rating: 5, review: 'Great course!', course: 'Principles of UI Design', dateReview: 'Sep 28, 2025' },
     { id: 2, reviewBy: 'Brian Smith', avatar: '👨', rating: 4, review: 'Very helpful.', course: 'Principles of UI Design', dateReview: 'Sep 28, 2025' },
@@ -91,8 +99,52 @@ const TeacherReviews = () => {
         showStatus={true}
         showSortBy={true}
         searchPlaceholder="Search"
-        showPagination={true} 
+        showPagination={true}
+        onRowClick={handleRowClick}
       />
+            {/* Review Modal */}
+      {showModal && selectedReview && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-96 relative">
+            <div className="mb-4">
+              <div className='flex justify-between items-center'>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="rounded-full bg-gray-200 p-2">{selectedReview.avatar}</span>
+                <div>
+                <p>ID: {selectedReview.id}</p>
+                <h5 className="reviewName">{selectedReview.reviewBy}</h5>
+                </div>
+              </div>
+              <div className=" flex gap-2 ">
+                 <p>{selectedReview.rating}</p>
+                 <span className="text-[#F57C00]">★</span>
+              </div>
+              </div>
+              <p className="text-gray-600 mb-2">{selectedReview.review}</p>
+              {/* <div className="text-sm text-gray-500">
+                <p>Course: {selectedReview.course}</p>
+                <p>Date: {selectedReview.dateReview}</p>
+              </div> */}
+            </div>
+            
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-purple-700 hover:bg-purple-800 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                Close
+              </button>
+            </div>
+
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-lg font-bold"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
