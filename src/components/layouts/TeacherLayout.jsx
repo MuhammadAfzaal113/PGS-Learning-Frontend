@@ -18,7 +18,7 @@ const TeacherLayout = () => {
         <TeacherNavbar />
         
         {/* Main content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto pb-4 hide-scrollbar">
           <Outlet />
         </main>
         

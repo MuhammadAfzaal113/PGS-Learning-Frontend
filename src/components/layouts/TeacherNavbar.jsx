@@ -30,7 +30,7 @@ const TeacherNavbar = () => {
 
 
     return (
-        <nav className="p-4">
+        <nav className="pb-2">
             <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                     {/* Show sidebar only on small screens */}

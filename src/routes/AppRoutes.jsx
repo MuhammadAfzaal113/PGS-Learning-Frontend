@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import Home from '../pages/Home'
@@ -18,6 +19,7 @@ import AddCourse from '../pages/AddCourse'
 import TeacherQuizzes from '../pages/TeacherQuizzes'
 import CreateQuiz from '../pages/CreateQuiz'
 import QuizDetail from '../pages/QuizDetail'
+import PaymentInvoice from '../components/teacher/PaymentInvoice'
 import TeacherStudents from '../pages/TeacherStudents'
 import TeacherTeam from '../pages/TeacherTeam'
 
@@ -47,9 +49,10 @@ export default function AppRoutes() {
           <Route path="/teacher/students" element={<TeacherStudents />} />
           <Route path="/teacher/my_team" element={<TeacherTeam />} />
           <Route path="/teacher/payments" element={<TeacherPayments />} />
+          <Route path="/teacher/payments/invoice" element={<PaymentInvoice />} />
           <Route path="/teacher/rating_and_reviews" element={<TeacherReviews />} />
           <Route path="/teacher/permissions" element={<TeacherPermissions />} />
-          <Route path="/teacher/settings" element={<TeacherSettings />} />
+          <Route path="/teacher/settings" element={<PaymentInvoice />} />
         </Route>
       {/* </Route> */}
     </Routes>
