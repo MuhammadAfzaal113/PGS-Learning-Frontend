@@ -63,7 +63,7 @@ const QuizzesTable = ({ courses }) => {
       showSortBy={true}
       showStatus={true}
       showAddButton={true}
-      addButtonText="create Quiz"
+      addButtonText="Create Quiz"
       searchPlaceholder="Search"
       showPagination={false}
     />
