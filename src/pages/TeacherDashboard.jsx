@@ -2,6 +2,8 @@ import React from 'react';
 import StudentsTable from '../components/teacher/StudentsTable';
 import CoursesTable from '../components/teacher/CoursesTable';
 import PaymentsTable from '../components/teacher/PaymentsTable';
+import PaymentsChart from '../components/teacher/PaymentChart';
+import MostSellingCourse from '../components/teacher/MostSellingCourse';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
@@ -105,6 +107,15 @@ const TeacherDashboard = () => {
             <p className="text-[32px] font-semibold leading-none mb-1">$7868.00</p>
             <h3 className="text-base font-normal opacity-90">Active Subscription</h3>
           </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <div className="lg:col-span-2">
+          <MostSellingCourse />
+        </div>
+        <div>
+           <PaymentsChart />
         </div>
       </div>
 

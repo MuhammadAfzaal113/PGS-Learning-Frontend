@@ -43,7 +43,7 @@ import Pagination from './Pagination';
     <div className="bg-white rounded-lg shadow p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-      <h2 className={`${isTeacherDashboard ? 'text-xl' : 'text-[24px]/[100%]'} font-semibold`}>{title}</h2>
+      <h2 className={`${isTeacherDashboard ? 'text-xl' : 'text-[24px]/[100%]'} font-semibold text-[black]`}>{title}</h2>
         <div className="flex items-center gap-3">
           {showSearch && (
             <input

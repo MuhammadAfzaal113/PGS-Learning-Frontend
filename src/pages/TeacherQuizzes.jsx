@@ -65,7 +65,7 @@ const TeacherQuizzes = () => { const coursesData = [
       showSortBy={true}
       showStatus={true}
       showAddButton={true}
-      addButtonText="create Quiz"
+      addButtonText="Create Quiz"
       onAdd={() => navigate('/teacher/quizes/create')}
       searchPlaceholder="Search"
       showPagination={true}
