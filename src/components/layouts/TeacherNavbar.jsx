@@ -86,7 +86,7 @@ const TeacherNavbar = () => {
                             </div>
                         }
                     </div>
-                    <h1 className="text-xl font-bold text-gray-800">Welcome Back</h1>
+                    <h1 className="text-xl font-bold text-gray-800">Welcome Back!</h1>
                 </div>
 
                 <div className="flex items-center space-x-4">

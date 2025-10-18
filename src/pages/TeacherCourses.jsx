@@ -89,7 +89,7 @@ const TeacherCourses = () => {
   );
 
   return (
-    <div className="min-h-[90vh] ">
+    <div className="p-6 ">
 
         <DataTable
             title="Courses"

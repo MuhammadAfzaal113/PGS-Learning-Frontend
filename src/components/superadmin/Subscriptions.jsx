@@ -1,7 +1,8 @@
 import React from 'react';
-import DataTable from '../components/common/DataTable';
+import DataTable from '../../components/common/DataTable';
 
-const TeacherStudents = () => {
+
+const Subscriptions = () => {
     const studentsData = [
     { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
     { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
@@ -23,11 +24,12 @@ const TeacherStudents = () => {
         </div>
       )
     },
-    { header: 'Courses Purchased', key: 'courses', className: 'text-[#424242]' },
+    // { header: 'Courses Purchased', key: 'courses', className: 'text-[#424242]' },
     { header: 'Email', key: 'email', className: 'text-[#424242]' },
     { header: 'Phone', key: 'phone', className: 'text-[#424242]' },
     { header: 'Location', key: 'location', className: 'text-[#424242]' },
     { header: 'Registered On', key: 'registeredOn', className: 'text-[#424242]' },
+
     {
       header: '',
       key: 'actions',
@@ -38,7 +40,7 @@ const TeacherStudents = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className=" p-6">
       {/* <h1 className="text-2xl font-bold mb-6">Students</h1>
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="overflow-x-auto">
@@ -85,4 +87,4 @@ const TeacherStudents = () => {
   );
 };
 
-export default TeacherStudents;
+export default Subscriptions;
