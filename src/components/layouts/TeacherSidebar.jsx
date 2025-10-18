@@ -8,11 +8,14 @@ const TeacherSidebar = () => {
   const navLinks = [
     { path: '/teacher/dashboard', label: 'Dashboard', icon: '📊' },
     { path: '/teacher/courses', label: 'Courses', icon: '📚' },
+    // { path: '/institutes', label: 'Institutes', icon: '🏫' },
     { path: '/teacher/quizes', label: 'Quizzes', icon: '✍️' },
+    // { path: '/teachers', label: 'Teachers', icon: '👥' },
     { path: '/teacher/students', label: 'Students', icon: '👥' },
     { path: '/teacher/my_team', label: 'My Team', icon: '👥' },
     { path: '/teacher/payments', label: 'Payments', icon: '💰' },
     { path: '/teacher/rating_and_reviews', label: 'Ratings & Reviews', icon: '⭐' },
+    // { path: '/subscriptions', label: 'Subscriptions', icon: '🔒' },
     { path: '/teacher/permissions', label: 'Permissions', icon: '🔒' },
     { path: '/teacher/settings', label: 'Settings', icon: '⚙️' },
   ];

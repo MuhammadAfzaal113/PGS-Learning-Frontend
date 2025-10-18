@@ -57,6 +57,7 @@ const TeacherQuizzes = () => { const coursesData = [
   const navigate = useNavigate();
 
   return (
+    <div className='p-6'>
     <DataTable
       title="Quizzes"
       columns={coursesColumns}
@@ -70,6 +71,7 @@ const TeacherQuizzes = () => { const coursesData = [
       searchPlaceholder="Search"
       showPagination={true}
     />
+    </div>
   );
 };
 
