@@ -2,7 +2,7 @@ import React from 'react';
 import DataTable from '../components/common/DataTable';
 import { useNavigate } from 'react-router-dom';
 
-const TeacherQuizzes = () => { const coursesData = [
+const Quizzes = () => { const coursesData = [
     { id: '564566', title: 'Principles of UI Design', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
     { id: '564566', title: 'UX Design', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
     { id: '564566', title: 'Basics of Python', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
@@ -75,4 +75,4 @@ const TeacherQuizzes = () => { const coursesData = [
   );
 };
 
-export default TeacherQuizzes;
+export default Quizzes;

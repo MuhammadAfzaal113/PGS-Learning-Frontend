@@ -34,7 +34,7 @@ const AddCourse = () => {
     e.preventDefault();
     // Here you would typically send the data to your backend
     console.log(formData);
-    navigate('/teacher/courses');
+    navigate('/courses');
   };
 
   return (

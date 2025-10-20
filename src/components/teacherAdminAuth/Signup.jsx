@@ -1,5 +1,5 @@
 import React from 'react'
-import SignupForm from '../components/auth/SignupForm'
+import SignupForm from '../auth/SignupForm'
 
 export default function Signup() {
   return <SignupForm />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const TeacherBottomBar = () => {
+const BottomBar = () => {
   const location = useLocation();
   
  
@@ -15,4 +15,4 @@ const TeacherBottomBar = () => {
   );
 };
 
-export default TeacherBottomBar;
+export default BottomBar;

@@ -4,7 +4,7 @@ import coursesData from '../data/courses.json';
 import DataTable from '../components/common/DataTable';
 
 
-const TeacherCourses = () => {
+const Courses = () => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
     const coursesData = [
@@ -172,4 +172,4 @@ const TeacherCourses = () => {
   );
 };
 
-export default TeacherCourses;
+export default Courses;

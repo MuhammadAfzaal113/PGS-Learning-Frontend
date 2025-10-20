@@ -2,26 +2,26 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import Home from '../pages/Home'
-import Login from '../pages/Login'
-import Signup from '../pages/Signup'
-import ForgotPassword from '../pages/ForgotPassword'
+import Login from '../components/teacherAdminAuth/Login'
+import Signup from '../components/teacherAdminAuth/Signup'
+import ForgotPassword from '../components/teacherAdminAuth/ForgotPassword'
 import Profile from '../pages/Profile'
 import ProjectPage from '../pages/ProjectPage'
-import TeacherCourses from '../pages/TeacherCourses'
-import TeacherPayments from '../pages/TeacherPayments'
-import TeacherReviews from '../pages/TeacherReviews'
-import TeacherPermissions from '../pages/TeacherPermission'
+import Courses from '../pages/Courses'
+import Payments from '../pages/Payments'
+import Reviews from '../pages/Reviews'
+import Permissions from '../pages/Permission'
 import TeacherSettings from '../pages/TeacherSettings'
 import ViewCourse from '../pages/ViewCourse'
-import TeacherDashboard from '../pages/TeacherDashboard'
-import TeacherLayouts from '../components/layouts/TeacherLayout'
+import Dashboard from '../pages/Dashboard'
+import Layouts from '../components/layouts/Layout'
 import AddCourse from '../pages/AddCourse'
-import TeacherQuizzes from '../pages/TeacherQuizzes'
+import Quizzes from '../pages/Quizzes'
 import CreateQuiz from '../pages/CreateQuiz'
 import QuizDetail from '../pages/QuizDetail'
 import PaymentInvoice from '../components/teacher/PaymentInvoice'
-import TeacherStudents from '../pages/TeacherStudents'
-import TeacherTeam from '../pages/TeacherTeam'
+import Students from '../pages/Students'
+import Team from '../pages/Team'
 import AddTeamMemberPage from '../pages/AddTeamMemberPage'
 import SuperAdminLogin from '../pages/SuperAdminLogin'
 import SuperAdminDashboard from '../pages/SuperAdminDashboard'
@@ -52,9 +52,9 @@ export default function AppRoutes() {
       </Route>
       {/* Teacher Routes */}
       {/* <Route element={<ProtectedRoute requiredPermission="teacher:access" />}> */}
-      <Route element={<TeacherLayouts />}>
-        <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
-        <Route path="/teacher/courses" element={<TeacherCourses />} />
+      <Route element={<Layouts />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/courses" element={<Courses />} />
         <Route path="/institutes" element={<Institutes />} />
         <Route path="/superadmin/institutes/add" element={<AddInstitute />} />
         <Route path="/superadmin/institutes/" element={<InstituteDetails />} />
@@ -62,17 +62,17 @@ export default function AppRoutes() {
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/teacher/courses/add" element={<AddCourse />} />
         <Route path="/teacher/courses/:id" element={<ViewCourse />} />
-        <Route path="/teacher/quizes" element={<TeacherQuizzes />} />
+        <Route path="/quizes" element={<Quizzes />} />
         <Route path="/teacher/quizes/create" element={<CreateQuiz />} />
         <Route path="/teacher/quizes/detail" element={<QuizDetail />} />
-        <Route path="/teacher/students" element={<TeacherStudents />} />
-        <Route path="/teacher/my_team" element={<TeacherTeam />} />
+        <Route path="/students" element={<Students />} />
+        <Route path="/my_team" element={<Team />} />
         <Route path="/teacher/my_team/add" element={<AddTeamMemberPage />} />
-        <Route path="/teacher/payments" element={<TeacherPayments />} />
+        <Route path="/payments" element={<Payments />} />
         <Route path="/teacher/payments/invoice" element={<PaymentInvoice />} />
-        <Route path="/teacher/rating_and_reviews" element={<TeacherReviews />} />
-        <Route path="/teacher/permissions" element={<TeacherPermissions />} />
-        <Route path="/teacher/settings" element={<PaymentInvoice />} />
+        <Route path="/rating_and_reviews" element={<Reviews />} />
+        <Route path="/permissions" element={<Permissions />} />
+        <Route path="/settings" element={<PaymentInvoice />} />
       </Route>
       {/* </Route> */}
     </Routes>
