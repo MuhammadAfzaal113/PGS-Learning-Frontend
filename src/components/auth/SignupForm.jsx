@@ -1,5 +1,5 @@
 import React from "react";
-import signinImg from '../../assets/sign-in.jpg' // update image path
+import signinImg from '../../assets/sign-in.jpg'
 
 export default function Signup() {
   return (

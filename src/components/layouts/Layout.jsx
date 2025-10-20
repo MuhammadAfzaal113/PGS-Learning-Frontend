@@ -1,21 +1,21 @@
 import React ,{ useState }from 'react';
 import { Outlet } from 'react-router-dom';
-import TeacherSidebar from './TeacherSidebar';
-import TeacherNavbar from './TeacherNavbar';
-import TeacherBottomBar from './TeacherBottomBar';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
+import BottomBar from './BottomBar';
 
-const TeacherLayout = () => {
+const Layout = () => {
 
   return (
     <div className="flex h-screen p-3 bg-gray-100">
     {/* Sidebar */}
     <div className="hidden md:block">
-        <TeacherSidebar />
+        <Sidebar />
     </div>
     {/* Main content area */}
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* Navbar */}
-        <TeacherNavbar />
+        <Navbar />
         
         {/* Main content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto pb-4 hide-scrollbar">
@@ -23,10 +23,10 @@ const TeacherLayout = () => {
         </main>
         
         {/* Bottom Bar */}
-        <TeacherBottomBar />
+        <BottomBar />
       </div>
     </div>
   );
 };
 
-export default TeacherLayout;
+export default Layout;

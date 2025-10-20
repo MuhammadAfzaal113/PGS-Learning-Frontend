@@ -10,7 +10,7 @@ import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 
-const TeacherDashboard = () => {
+const Dashboard = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -138,4 +138,4 @@ const TeacherDashboard = () => {
   );
 };
 
-export default TeacherDashboard;
+export default Dashboard;

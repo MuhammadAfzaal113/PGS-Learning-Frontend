@@ -1,7 +1,7 @@
 import React from 'react';
 import DataTable from '../components/common/DataTable';
 
-const TeacherPayments = () => {
+const Payments = () => {
   const paymentsData = [
     { id: '564566', name: 'Cameron Williamson', avatar: '👨', email: 'cameron.william@gmail.com', course: 'Principle of UI Design', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
     { id: '564566', name: 'Darrell Steward', avatar: '👨', email: 'darrelstew9205@gmail.com', course: 'Principle of UI Design', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
@@ -105,4 +105,4 @@ const TeacherPayments = () => {
   );
 };
 
-export default TeacherPayments;
+export default Payments;

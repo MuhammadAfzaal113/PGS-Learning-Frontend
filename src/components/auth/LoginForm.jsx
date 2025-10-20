@@ -21,7 +21,7 @@ export default function LoginPage() {
       if (raw) {
         const stored = JSON.parse(raw);
         if (stored && stored.role === 'teacher') {
-          navigate('/teacher/dashboard');
+          navigate('/dashboard');
         }
       }
     } catch (e) {
@@ -56,7 +56,7 @@ export default function LoginPage() {
     }
 
     // Optionally navigate to teacher dashboard
-    navigate('/teacher/dashboard');
+    navigate('/dashboard');
   };
 
   return (

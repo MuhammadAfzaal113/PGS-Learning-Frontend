@@ -41,11 +41,11 @@ const AddTeamMemberPage = () => {
       console.warn('Failed to save team member', e);
     }
 
-    navigate('/teacher/my_team');
+    navigate('/my_team');
   };
 
   const handleCancel = () => {
-    navigate('/teacher/my_team');
+    navigate('/my_team');
   };
 
   return (

@@ -20,7 +20,7 @@ const DataTable = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
-  const isTeacherDashboard = location.pathname.includes('/teacher/dashboard');
+  const isTeacherDashboard = location.pathname.includes('/dashboard');
 
   // Filter data based on search
   const filteredData = data.filter(row => {

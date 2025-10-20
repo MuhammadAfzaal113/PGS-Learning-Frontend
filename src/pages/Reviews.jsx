@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DataTable from '../components/common/DataTable';
 
-const TeacherReviews = () => {
+const Reviews = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
 
@@ -149,4 +149,4 @@ const TeacherReviews = () => {
   );
 };
 
-export default TeacherReviews;
+export default Reviews;

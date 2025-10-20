@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 
 
-const TeacherNavbar = () => {
+const Navbar = () => {
     const navigate = useNavigate();
     const [search, setsearch] = React.useState('');
     const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -15,15 +15,15 @@ const TeacherNavbar = () => {
     const location = useLocation();
 
     const navLinks = [
-        { path: '/teacher/dashboard', label: 'Dashboard', icon: '📊' },
-        { path: '/teacher/courses', label: 'Courses', icon: '📚' },
-        { path: '/teacher/quizes', label: 'Quizzes', icon: '✍️' },
-        { path: '/teacher/students', label: 'Students', icon: '👥' },
-        { path: '/teacher/my_team', label: 'My Team', icon: '👥' },
-        { path: '/teacher/payments', label: 'Payments', icon: '💰' },
-        { path: '/teacher/rating_and_reviews', label: 'Ratings & Reviews', icon: '⭐' },
-        { path: '/teacher/permissions', label: 'Permissions', icon: '🔒' },
-        { path: '/teacher/settings', label: 'Settings', icon: '⚙️' },
+        { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+        { path: '/courses', label: 'Courses', icon: '📚' },
+        { path: '/quizes', label: 'Quizzes', icon: '✍️' },
+        { path: '/students', label: 'Students', icon: '👥' },
+        { path: '/my_team', label: 'My Team', icon: '👥' },
+        { path: '/payments', label: 'Payments', icon: '💰' },
+        { path: '/rating_and_reviews', label: 'Ratings & Reviews', icon: '⭐' },
+        { path: '/permissions', label: 'Permissions', icon: '🔒' },
+        { path: '/settings', label: 'Settings', icon: '⚙️' },
     ];
 
 
@@ -144,4 +144,4 @@ const TeacherNavbar = () => {
 
 };
 
-export default TeacherNavbar;
+export default Navbar;

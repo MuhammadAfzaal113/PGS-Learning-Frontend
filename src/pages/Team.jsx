@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const TeacherTeam = () => {
+const Team = () => {
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
 
@@ -87,4 +87,4 @@ const TeacherTeam = () => {
   );
 };
 
-export default TeacherTeam;
+export default Team;

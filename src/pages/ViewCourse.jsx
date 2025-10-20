@@ -67,7 +67,7 @@ const ViewCourse = () => {
           {/* Action Buttons */}
           <div className="mt-8 flex justify-end space-x-4">
             <button
-              onClick={() => navigate('/teacher/courses')}
+              onClick={() => navigate('/courses')}
               className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
             >
               Back to Courses

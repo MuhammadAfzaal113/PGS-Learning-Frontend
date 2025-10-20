@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const TeacherPermissions = () => {
+const Permissions = () => {
   const [permissions, setPermissions] = useState({
     instructors: {
       viewInstructors: { admin: false, manager: false },
@@ -254,4 +254,4 @@ const TeacherPermissions = () => {
   );
 };
 
-export default TeacherPermissions;
+export default Permissions;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import signinImg from "../assets/sign-in.jpg";
+import signinImg from "../../assets/sign-in.jpg";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
