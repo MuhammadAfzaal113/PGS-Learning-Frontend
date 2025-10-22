@@ -26,8 +26,8 @@ import AddTeamMemberPage from '../pages/AddTeamMemberPage'
 import SuperAdminLogin from '../pages/SuperAdminLogin'
 import SuperAdminDashboard from '../pages/SuperAdminDashboard'
 import SuperAdminForgotPassword from '../pages/SuperAdminForgotPassword'
-import AddInstitute from '../pages/AddInstitute'
-import InstituteDetails from '../pages/InstituteDetails'
+import AddInstitute from '../components/superadmin/institutes/institute-add-form/AddInstitute'
+import InstituteDetails from '../components/superadmin/institutes/institute-detail/InstituteDetails'
 import { Institutes, Subscriptions, Teachers } from '../components/superadmin';
 
 export default function AppRoutes() {
