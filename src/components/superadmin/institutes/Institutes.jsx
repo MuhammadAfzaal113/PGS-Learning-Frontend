@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DataTable from '../../components/common/DataTable';
+import DataTable from '../../common/DataTable';
 
 
 const Institutes = () => {
