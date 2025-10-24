@@ -1,23 +1,35 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import CardMembershipOutlinedIcon from '@mui/icons-material/CardMembershipOutlined';
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 const Sidebar = () => {
   const location = useLocation();
   const [search, setSearch] = React.useState('');
 
   const navLinks = [
-    { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { path: '/courses', label: 'Courses', icon: '📚' },
-    // { path: '/institutes', label: 'Institutes', icon: '🏫' },
-    { path: '/quizes', label: 'Quizzes', icon: '✍️' },
-    // { path: '/teachers', label: 'Teachers', icon: '👥' },
-    { path: '/students', label: 'Students', icon: '👥' },
-    { path: '/my_team', label: 'My Team', icon: '👥' },
-    { path: '/payments', label: 'Payments', icon: '💰' },
-    { path: '/rating_and_reviews', label: 'Ratings & Reviews', icon: '⭐' },
-    // { path: '/subscriptions', label: 'Subscriptions', icon: '🔒' },
-    { path: '/permissions', label: 'Permissions', icon: '🔒' },
-    { path: '/settings', label: 'Settings', icon: '⚙️' },
+  { path: '/dashboard', label: 'Dashboard', icon: <DashboardOutlinedIcon /> },
+  { path: '/courses', label: 'Courses', icon: <TrendingUpOutlinedIcon /> },
+  { path: '/institutes', label: 'Institutes', icon: <AdminPanelSettingsOutlinedIcon /> },
+  { path: '/quizes', label: 'Quizzes', icon: <AssignmentOutlinedIcon /> },
+  { path: '/teachers', label: 'Teachers', icon: <ContactsOutlinedIcon /> },
+  { path: '/students', label: 'Students', icon: <SchoolOutlinedIcon /> },
+  { path: '/my_team', label: 'My Team', icon: <PeopleAltOutlinedIcon /> },
+  { path: '/payments', label: 'Payments', icon: <PaymentOutlinedIcon /> },
+  { path: '/rating_and_reviews', label: 'Ratings & Reviews', icon: <StarBorderOutlinedIcon /> },
+  { path: '/subscriptions', label: 'Subscriptions', icon: <CardMembershipOutlinedIcon /> },
+  { path: '/permissions', label: 'Permissions', icon: <SignpostOutlinedIcon /> },
+  { path: '/settings', label: 'Settings', icon: <SettingsOutlinedIcon /> },
   ];
 
   return (
@@ -46,7 +58,7 @@ const Sidebar = () => {
           <Link
             key={link.path}
             to={link.path}
-            className={`flex items-center h-[40px] w-full py-3 text-white hover:bg-[#924dbf] hover:text-white rounded-lg border ${
+            className={`flex items-center h-[40px] w-full py-3 pl-2 text-white hover:bg-[#924dbf] hover:text-white rounded-lg border ${
               location.pathname === link.path
                 ? 'bg-[#664286] border-[#664286]'
                 : 'border-transparent'
