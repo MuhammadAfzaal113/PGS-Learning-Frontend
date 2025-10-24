@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 
 
@@ -35,7 +37,6 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                     {/* Show sidebar only on small screens */}
                     <div className="block sm:hidden relative">
-
 
                         <button
                             className="p-2 bg-black rounded-full"
@@ -97,16 +98,16 @@ const Navbar = () => {
                             className="px-4 py-2 border border-gray-300 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
                     </div>
-                    <button className="p-2 bg-gray-100 rounded-full">
-                        <span className="text-xl">🔔</span>
+                    <button className="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow-sm overflow-hidden">
+                        <NotificationsNoneOutlinedIcon sx={{ fontSize: 20 }} />
                     </button>
 
                     <div className="relative">
                         <button
-                            className="flex items-center space-x-2 bg-gray-100 rounded-full p-2"
+                            className="flex w-10 h-10 items-center justify-center space-x-2 bg-[#D9D9D9] rounded-lg"
                             onClick={() => setDropdownOpen(prev => !prev)}
                         >
-                            <span className="text-xl">👤</span>
+                            <PersonOutlinedIcon sx={{ fontSize: 20 }} />
                         </button>
                         {dropdownOpen && (
                             <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg z-10">
