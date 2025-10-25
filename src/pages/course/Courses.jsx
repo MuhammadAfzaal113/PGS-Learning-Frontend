@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import coursesData from '../data/courses.json';
-import DataTable from '../components/common/DataTable';
+import coursesData from '../../data/courses.json';
+import DataTable from '../../components/common/DataTable';
 
 
 const Courses = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import DataTable from '../../components/common/DataTable';
+import DataTable from '../../common/DataTable';
 
 
 const Subscriptions = () => {
