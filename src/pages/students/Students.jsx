@@ -1,14 +1,13 @@
 import React from 'react';
 import DataTable from '../../components/common/DataTable';
 
-
-const Teachers = () => {
+const Students = () => {
     const studentsData = [
-    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', dateJoined: 'Sep 28, 2025', status: 'Active' },
-    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', dateJoined: 'Sep 28, 2025', status: 'Active' },
-    { id: '564566', name: 'Cody Fisher', avatar: '👨', courses: '07', email: 'codyfisher@example.com', phone: '(808) 555-0111', location: 'Corona, Michigan', dateJoined: 'Sep 28, 2025', status: 'Active' },
-    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', dateJoined: 'Sep 28, 2025', status: 'Active' },
-    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', dateJoined: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Cody Fisher', avatar: '👨', courses: '07', email: 'codyfisher@example.com', phone: '(808) 555-0111', location: 'Corona, Michigan', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
 
   ];
 
@@ -24,28 +23,11 @@ const Teachers = () => {
         </div>
       )
     },
-    // { header: 'Courses Purchased', key: 'courses', className: 'text-[#424242]' },
+    { header: 'Courses Purchased', key: 'courses', className: 'text-[#424242]' },
     { header: 'Email', key: 'email', className: 'text-[#424242]' },
     { header: 'Phone', key: 'phone', className: 'text-[#424242]' },
     { header: 'Location', key: 'location', className: 'text-[#424242]' },
-    { header: 'Date Joined', key: 'dateJoined', className: 'text-[#424242]' },
-    { 
-      header: 'Status', 
-      key: 'status',
-      render: (row) => {
-        const statusColors = {
-          'Active': 'bg-green-100 text-[#424242]',
-          'In-Active': 'bg-gray-100 text-[#424242]',
-          'In-Approval': 'bg-yellow-100 text-[#424242]',
-          'Rejected': 'bg-red-100 text-[#424242]'
-        };
-        return (
-          <span className={`px-3 py-1 rounded-full text-xs text-[#424242] ${statusColors[row.status]}`}>
-            {row.status}
-          </span>
-        );
-      }
-    },
+    { header: 'Registered On', key: 'registeredOn', className: 'text-[#424242]' },
     {
       header: '',
       key: 'actions',
@@ -56,7 +38,7 @@ const Teachers = () => {
   ];
 
   return (
-    <div className=" p-6">
+    <div className="p-6">
       {/* <h1 className="text-2xl font-bold mb-6">Students</h1>
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="overflow-x-auto">
@@ -91,14 +73,11 @@ const Teachers = () => {
         </div>
       </div> */}
       <DataTable
-        title="Teachers"
+        title="Students"
         columns={studentsColumns}
         data={studentsData}
         showSearch={true}
         showSortBy={true}
-        showAddButton={true}
-        showStatus={true}
-        addButtonText="Add Teachers"
         searchPlaceholder="Search"
         showPagination={true}
       />
@@ -106,4 +85,4 @@ const Teachers = () => {
   );
 };
 
-export default Teachers;
+export default Students;

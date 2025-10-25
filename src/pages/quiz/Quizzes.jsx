@@ -1,5 +1,5 @@
 import React from 'react';
-import DataTable from '../components/common/DataTable';
+import DataTable from '../../components/common/DataTable';
 import { useNavigate } from 'react-router-dom';
 
 const Quizzes = () => { const coursesData = [

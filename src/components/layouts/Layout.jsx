@@ -18,7 +18,8 @@ const Layout = () => {
         <Navbar />
         
         {/* Main content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto pb-4 hide-scrollbar">
+        {/* Add extra bottom padding so a fixed BottomBar doesn't cover page content */}
+        <main className="flex-1 overflow-x-hidden overflow-y-auto pb-28 hide-scrollbar">
           <Outlet />
         </main>
         
