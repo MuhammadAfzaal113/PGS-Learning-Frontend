@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { logout } from '../../features/auth/authSlice'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
@@ -15,6 +17,7 @@ const Navbar = () => {
     const [sidebarOpen, setsidebarOpen] = React.useState(false);
 
     const location = useLocation();
+    const dispatch = useDispatch();
 
     const navLinks = [
         { path: '/dashboard', label: 'Dashboard', icon: '📊' },
@@ -120,20 +123,22 @@ const Navbar = () => {
                                 >
                                     Profile
                                 </button>
-                                <button
-                                    className="block w-full text-left hover:bg-gray-100 hover:text-black"
-                                    onClick={() => {
-                                        setDropdownOpen(false);
-                                        try {
-                                            localStorage.removeItem('user');
-                                        } catch (e) {
-                                            // ignore storage errors
-                                        }
-                                        navigate('/login');
-                                    }}
-                                >
-                                    Logout
-                                </button>
+                                        <button
+                                            className="block w-full text-left hover:bg-gray-100 hover:text-black"
+                                            onClick={() => {
+                                                setDropdownOpen(false);
+                                                // dispatch logout reducer which clears state and localStorage
+                                                try {
+                                                    dispatch(logout())
+                                                } catch (e) {
+                                                    // if dispatch fails for any reason, fallback to clearing storage
+                                                    try { localStorage.clear() } catch (_) {}
+                                                }
+                                                navigate('/login');
+                                            }}
+                                        >
+                                            Logout
+                                        </button>
                             </div>
                         )}
                     </div>

@@ -1,45 +1,5 @@
-// import { createSlice } from '@reduxjs/toolkit'
-
-// const initialState = {
-//   user: null,
-//   accessToken: null,
-//   refreshToken: null,
-//   status: 'idle',
-//   error: null,
-// }
-
-// export const authSlice = createSlice({
-//   name: 'auth',
-//   initialState,
-//   reducers: {
-//     setCredentials(state, action) {
-//       const { user, accessToken, refreshToken } = action.payload
-//       state.user = user
-//       state.accessToken = accessToken
-//       state.refreshToken = refreshToken
-//       state.status = 'succeeded'
-//       state.error = null
-//     },
-//     clearCredentials(state) {
-//       state.user = null
-//       state.accessToken = null
-//       state.refreshToken = null
-//       state.status = 'idle'
-//       state.error = null
-//     },
-//     setAuthError(state, action) {
-//       state.error = action.payload
-//       state.status = 'failed'
-//     },
-//   },
-// })
-
-// export const { setCredentials, clearCredentials, setAuthError } = authSlice.actions
-
-// export default authSlice.reducer
-
-// src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { refreshAuth } from '../../api/axiosClient'
 
 // ✅ Async thunk for login
 export const loginUser = createAsyncThunk(
@@ -64,16 +24,16 @@ export const loginUser = createAsyncThunk(
       if (!response.ok || !data.success) {
         return rejectWithValue(data.message || 'Invalid credentials');
       }
-
+      console.log('Login successful, received data:', data);
       // Save tokens locally
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
+      localStorage.setItem('accessToken', data?.data?.accessToken);
+      localStorage.setItem('refreshToken', data?.data?.refreshToken);
       localStorage.setItem(
         'user',
         JSON.stringify({
-          full_name: data.full_name,
-          email: data.email,
-          is_superuser: data.is_superuser,
+          full_name: data?.data?.full_name,
+          email: data?.data?.email,
+          is_superuser: data?.data?.is_superuser,
         })
       );
 
@@ -83,6 +43,23 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+// ✅ Async thunk to refresh access token
+export const refreshAccessToken = createAsyncThunk(
+  'auth/refreshAccessToken',
+  async ({ refreshToken }, { rejectWithValue }) => {
+    try {
+      const data = await refreshAuth(refreshToken)
+      if (!data || !data.success) return rejectWithValue(data.message || 'Refresh failed')
+      // persist tokens
+      localStorage.setItem('accessToken', data.accessToken)
+      localStorage.setItem('refreshToken', data.refreshToken)
+      return data
+    } catch (err) {
+      return rejectWithValue(err.message || 'Refresh token failed')
+    }
+  }
+)
 
 const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || null,
@@ -123,7 +100,27 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Login failed';
-      });
+      })
+      // refresh token flow
+      .addCase(refreshAccessToken.pending, (state) => {
+        // keep UI loading unaffected; just clear error
+        state.error = null
+      })
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken
+        state.refreshToken = action.payload.refreshToken
+      })
+      .addCase(refreshAccessToken.rejected, (state, action) => {
+        // failed refresh — clear auth state
+        state.accessToken = null
+        state.refreshToken = null
+        state.user = null
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('user')
+        state.error = action.payload || 'Session expired'
+      })
+    ;
   },
 });
 
