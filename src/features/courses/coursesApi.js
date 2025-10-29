@@ -9,6 +9,7 @@ export const fetchCourses = createAsyncThunk(
   async ({ index = 0, offset = 10 }, { rejectWithValue }) => {
     try {
       const data = await listCourses({ index, offset })
+      console.log('Fetched courses data:', data)
       return data
     } catch (err) {
       return rejectWithValue(err)
@@ -70,7 +71,7 @@ const courseSlice = createSlice({
       })
       .addCase(fetchCourses.fulfilled, (state, action) => {
         state.loading = false
-        state.items = action.payload?.courses || []
+        state.items = action.payload || []
       })
       .addCase(fetchCourses.rejected, (state, action) => {
         state.loading = false

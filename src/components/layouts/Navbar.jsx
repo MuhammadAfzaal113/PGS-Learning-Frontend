@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import { logout } from '../../features/auth/authSlice'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
@@ -13,11 +14,34 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 const Navbar = () => {
     const navigate = useNavigate();
     const [search, setsearch] = React.useState('');
+      const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
     const [dropdownOpen, setDropdownOpen] = React.useState(false);
     const [sidebarOpen, setsidebarOpen] = React.useState(false);
+      const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
+        const handleMenuClose = () => setAnchorEl(null);
 
     const location = useLocation();
     const dispatch = useDispatch();
+
+    const handleProfile = () => {
+    handleMenuClose();
+    navigate("/profile");
+  };
+
+  const handleLogout = () => {
+    handleMenuClose();
+    try {
+      dispatch(logout());
+    } catch (e) {
+      try {
+        localStorage.clear();
+      } catch (_) {}
+    }
+    navigate("/login");
+  };
 
     const navLinks = [
         { path: '/dashboard', label: 'Dashboard', icon: '📊' },
@@ -106,7 +130,7 @@ const Navbar = () => {
                     </button>
 
                     <div className="relative">
-                        <button
+                        {/* <button
                             className="flex w-10 h-10 items-center justify-center space-x-2 bg-[#D9D9D9] rounded-lg"
                             onClick={() => setDropdownOpen(prev => !prev)}
                         >
@@ -140,7 +164,38 @@ const Navbar = () => {
                                             Logout
                                         </button>
                             </div>
-                        )}
+                        )} */}
+                         <IconButton
+        onClick={handleMenuOpen}
+        sx={{
+          backgroundColor: "#D9D9D9",
+          borderRadius: "8px",
+          width: "40px",
+          height: "40px",
+          "&:hover": { backgroundColor: "#C0C0C0" },
+        }}
+      >
+        <PersonOutlinedIcon sx={{ fontSize: 20 }} />
+      </IconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleMenuClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        PaperProps={{
+          sx: {
+            mt: 1,
+            borderRadius: 2,
+            boxShadow: 3,
+            minWidth: 120,
+          },
+        }}
+      >
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
                     </div>
                 </div>
             </div>

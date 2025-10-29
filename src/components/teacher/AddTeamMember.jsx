@@ -23,7 +23,7 @@ const AddTeamMember = ({ open, onClose, onSave }) => {
   // Save new member
   const handleSubmit = () => {
     if (!formData.name || !formData.email || !formData.phone || !formData.role) {
-      alert('Please fill in all fields.');
+      // alert('Please fill in all fields.');
       return;
     }
 
