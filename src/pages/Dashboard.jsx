@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import StudentsTable from '../components/teacher/StudentsTable';
 import CoursesTable from '../components/teacher/CoursesTable';
 import PaymentsTable from '../components/teacher/PaymentsTable';
@@ -9,8 +9,20 @@ import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourses } from '../features/courses/coursesApi';
+
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const { items: courses = [], loading } = useSelector((state) => state.courses || {});
+
+    // 🔹 Fetch courses when Dashboard mounts
+  useEffect(() => {
+    dispatch(fetchCourses({ index: 0, offset: 5 }));
+    console.log('Courses in Dashboard:', courses);
+  }, [dispatch]);
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -126,7 +138,7 @@ const Dashboard = () => {
           <StudentsTable />
         </div>
         <div>
-          <CoursesTable />
+          <CoursesTable courses={courses} loading={loading}/>
         </div>
 
         {/* Second row - full width below both */}

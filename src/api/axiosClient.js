@@ -187,7 +187,8 @@ export async function listCourses(a = 0, b = 10) {
         Authorization: `Bearer ${token}`,
       },
     })
-    return res.data
+    console.log('Courses listed', res.data.results)
+    return res.data.results
   } catch (err) {
     if (err.response && err.response.data) throw err.response.data
     throw { message: err.message || 'Network error' }

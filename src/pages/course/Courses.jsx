@@ -15,53 +15,87 @@ const Courses = () => {
     dispatch(fetchCourses({ index: 0, offset: 10 }));
   }, [dispatch]);
 
-  const coursesColumns = [
-    { header: "ID", key: "id", className: "text-[#424242]" },
-    { header: "Name", key: "title", className: "text-[#424242]" },
-    { header: "Topics", key: "topics", className: "text-[#424242]" },
-    { header: "Total Hours", key: "hours", className: "text-[#424242]" },
-    { header: "Price", key: "price", className: "text-[#424242]" },
-    { header: "Students", key: "students", className: "text-[#424242]" },
-    {
-      header: "Ratings",
-      key: "rating",
-      render: (row) => (
-        <div className="flex items-center gap-1">
-          <span className="text-yellow-500">★</span>
-          <span>{row.rating}</span>
-        </div>
-      ),
+const coursesColumns = [
+  {
+    header: "ID",
+    key: "id",
+    className: "text-[#424242]",
+    render: (row) => (
+      <span>{row.id ? row.id.slice(-5).toUpperCase() : "—"}</span>
+    ),
+  },
+  {
+    header: "Name",
+    key: "title",
+    className: "text-[#424242]",
+  },
+  { header: "Topics", key: "topics", className: "text-[#424242]" },
+  { header: "Total Hours", key: "hours", className: "text-[#424242]" },
+  {
+    header: "Price",
+    key: "price",
+    className: "text-[#424242]",
+    render: (row) => {
+      const price = parseFloat(row.price)
+      return isNaN(price) ? "—" : `$${price.toFixed(2)}`
     },
-    { header: "Added On", key: "created_at", className: "text-[#424242]" },
-    {
-      header: "Status",
-      key: "status",
-      render: (row) => {
-        const statusColors = {
-          Active: "bg-green-100 text-[#424242]",
-          "In-Active": "bg-gray-100 text-[#424242]",
-          "In-Approval": "bg-yellow-100 text-[#424242]",
-          Rejected: "bg-red-100 text-[#424242]",
-        };
-        return (
-          <span
-            className={`px-3 py-1 rounded-full text-xs ${
-              statusColors[row.status] || "bg-gray-100 text-[#424242]"
-            }`}
-          >
-            {row.status || "Pending"}
-          </span>
-        );
-      },
+  },
+  { header: "Students", key: "students", className: "text-[#424242]" },
+  {
+    header: "Ratings",
+    key: "rating",
+    render: (row) => (
+      <div className="flex items-center gap-1">
+        <span className="text-yellow-500">★</span>
+        <span>{row?.rating}</span>
+      </div>
+    ),
+  },
+  {
+    header: "Added On",
+    key: "created_at",
+    className: "text-[#424242]",
+    render: (row) => {
+      if (!row.created_at) return "—"
+      const date = new Date(row.created_at)
+      const formatted = date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+      return formatted // e.g., "Sep 27, 2025"
     },
-    {
-      header: "",
-      key: "actions",
-      render: () => (
-        <button className="text-gray-400 hover:text-gray-600">⋮</button>
-      ),
+  },
+  {
+    header: "Status",
+    key: "status",
+    render: (row) => {
+      const statusColors = {
+        Active: "bg-green-100 text-[#424242]",
+        "In-Active": "bg-gray-100 text-[#424242]",
+        "In-Approval": "bg-yellow-100 text-[#424242]",
+        Rejected: "bg-red-100 text-[#424242]",
+      }
+      return (
+        <span
+          className={`px-3 py-1 rounded-full text-xs ${
+            statusColors[row.status] || "bg-gray-100 text-[#424242]"
+          }`}
+        >
+          {row.status || "Pending"}
+        </span>
+      )
     },
-  ];
+  },
+  {
+    header: "",
+    key: "actions",
+    render: () => (
+      <button className="text-gray-400 hover:text-gray-600">⋮</button>
+    ),
+  },
+]
+
 
   // Empty state component
   const EmptyState = () => (
