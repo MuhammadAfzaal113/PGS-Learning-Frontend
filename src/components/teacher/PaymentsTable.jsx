@@ -43,13 +43,15 @@ const PaymentsTable = ({ payments }) => {
   ];
 
   return (
-    <DataTable
-      title="Payments"
-      columns={paymentsColumns}
-      data={paymentsData}
-      showPagination={false}
-      showSearch={false}
-    />
+    <div className='h-[330px] bg-white rounded-lg shadow'>
+      <DataTable
+        title="Payments"
+        columns={paymentsColumns}
+        data={paymentsData}
+        showPagination={false}
+        showSearch={false}
+      />
+    </div>
   );
 }
 export default PaymentsTable;

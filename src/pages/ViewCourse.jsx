@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import CreateQuizDrawer from "../components/quiz/CreateQuizDrawer";
 
 const ViewCourse = () => {
   const [topics, setTopics] = useState([
     {
-      id: 1,
+      id: Date.now(),
       title: "",
       description: "",
       video: null,
@@ -18,11 +18,20 @@ const ViewCourse = () => {
   const [quizDrawerOpen, setQuizDrawerOpen] = useState(false);
   const [quizTopicId, setQuizTopicId] = useState(null);
 
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Hidden file input refs
+  const videoInputRef = useRef({});
+  const documentInputRef = useRef({});
+  const testInputRef = useRef({});
+
+  // ➕ Add new topic
   const handleAddTopic = () => {
-    setTopics([
-      ...topics,
+    setTopics((prev) => [
+      ...prev,
       {
-        id: topics.length + 1,
+        id: Date.now() + Math.random(),
         title: "",
         description: "",
         video: null,
@@ -33,13 +42,30 @@ const ViewCourse = () => {
     ]);
   };
 
-  const handleVideoUpload = (topicId) =>
-    console.log("Upload video for topic:", topicId);
-  const handleDocumentUpload = (topicId) =>
-    console.log("Upload document for topic:", topicId);
-  const handleTestUpload = (topicId) =>
-    console.log("Upload test for topic:", topicId);
+  // 📹 Handle file uploads
+  const handleFileSelect = (topicId, type, file) => {
+    setTopics((prev) =>
+      prev.map((t) => (t.id === topicId ? { ...t, [type]: file } : t))
+    );
+  };
 
+  // 🧾 Handle upload clicks (video/document/test)
+  const handleUploadClick = (topicId, type) => {
+    let inputRef = null;
+
+    if (type === "video") inputRef = videoInputRef.current[topicId];
+    if (type === "document") inputRef = documentInputRef.current[topicId];
+    if (type === "test") inputRef = testInputRef.current[topicId];
+
+    if (inputRef) {
+      // ensure ref is ready before click
+      setTimeout(() => inputRef.click(), 0);
+    } else {
+      console.warn(`${type} input ref not found for topic ${topicId}`);
+    }
+  };
+
+  // 🧮 Quiz Drawer
   const handleCreateQuiz = (topicId) => {
     setQuizTopicId(topicId);
     setQuizDrawerOpen(true);
@@ -50,18 +76,11 @@ const ViewCourse = () => {
       prev.map((t) => (t.id === quizTopicId ? { ...t, quiz: payload } : t))
     );
     setQuizDrawerOpen(false);
+    setQuizTopicId(null);
   };
 
-  const handleAssignQuiz = (topicId) =>
-    console.log("Assign quiz for topic:", topicId);
-  const handleDeleteVideo = (topicId) =>
-    console.log("Delete video for topic:", topicId);
   const handleCancel = () => console.log("Cancel clicked");
-  const handleCreateCourse = () =>
-    console.log("Create course clicked", topics);
-
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const handleCreateCourse = () => console.log("Create course clicked", topics);
 
   return (
     <div className="min-h-[80vh] p-6">
@@ -74,19 +93,29 @@ const ViewCourse = () => {
           </h3>
 
           {topics.map((topic, index) => (
-            <div key={topic.id} className="mb-8">
+            <div key={topic.id} className="mb-2">
               <h4 className="text-sm font-semibold text-purple-700 mb-4">
                 Topic {index + 1}
               </h4>
 
               <div className="space-y-4">
-                {/* Topic Title */}
+                {/* Title */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Topic Title
                   </label>
                   <input
                     type="text"
+                    value={topic.title}
+                    onChange={(e) =>
+                      setTopics((prev) =>
+                        prev.map((t) =>
+                          t.id === topic.id
+                            ? { ...t, title: e.target.value }
+                            : t
+                        )
+                      )
+                    }
                     placeholder="Enter topic title"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
                   />
@@ -99,33 +128,49 @@ const ViewCourse = () => {
                   </label>
                   <input
                     type="text"
+                    value={topic.description}
+                    onChange={(e) =>
+                      setTopics((prev) =>
+                        prev.map((t) =>
+                          t.id === topic.id
+                            ? { ...t, description: e.target.value }
+                            : t
+                        )
+                      )
+                    }
                     placeholder="Enter topic description"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
                   />
                 </div>
 
-                {/* Upload lecture video */}
-                <div className="flex items-center justify-between py-3 w-[50%]">
-                  <label className="text-sm text-gray-700">
-                    Upload lecture video
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-900 text-white rounded">
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                      </svg>
-                      <span className="text-xs">Video title</span>
+                {/* Upload Video */}
+                <div className="grid grid-cols-2 gap-4 items-center">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Upload lecture video
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-4 pr-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-black rounded flex items-center justify-center">
+                        <svg
+                          className="w-3.5 h-3.5 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-gray-700">
+                        {topic.video ? topic.video.name : "No video uploaded"}
+                      </span>
                     </div>
                     <button
-                      onClick={() => handleDeleteVideo(topic.id)}
-                      className="text-gray-400 hover:text-red-500"
+                      onClick={() => handleUploadClick(topic.id, "video")}
+                      className="p-1.5 hover:bg-gray-200 rounded transition-colors"
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4 text-gray-600"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -138,75 +183,29 @@ const ViewCourse = () => {
                         />
                       </svg>
                     </button>
+                    <input
+                      type="file"
+                      accept="video/*"
+                      className="hidden"
+                      ref={(el) => (videoInputRef.current[topic.id] = el)}
+                      onChange={(e) =>
+                        handleFileSelect(topic.id, "video", e.target.files[0])
+                      }
+                    />
                   </div>
                 </div>
 
-                {/* Upload lecture document */}
-                <div className="flex items-center justify-between py-3 w-[50%]">
-                  <label className="text-sm text-gray-700">
-                    Upload lecture document
-                  </label>
-                  <button
-                    onClick={() => handleDocumentUpload(topic.id)}
-                    className="flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded text-sm hover:bg-gray-50"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                      />
-                    </svg>
-                    <span>Upload</span>
-                  </button>
-                </div>
-
-                {/* Upload lecture test */}
-                <div className="flex items-center justify-between py-3 w-[50%]">
-                  <label className="text-sm text-gray-700">
-                    Upload lecture test
-                  </label>
-                  <button
-                    onClick={() => handleTestUpload(topic.id)}
-                    className="flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded text-sm hover:bg-gray-50"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                      />
-                    </svg>
-                    <span>Upload</span>
-                  </button>
-                </div>
-
-                {/* Create quiz */}
-                <div className="flex items-center justify-between py-3 w-[50%]">
-                  <label className="text-sm text-gray-700">Create quiz</label>
-                  <div className="flex items-center gap-3">
+                {/* Upload Document */}
+                <div className="grid grid-cols-2 gap-4 items-start">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Upload lecture document
+                    </label>
+                  </div>
+                  <div>
                     <button
-                      onClick={() => handleCreateQuiz(topic.id)}
-                      className="flex items-center gap-1 px-4 py-1.5 border border-gray-300 rounded text-sm hover:bg-gray-50"
-                    >
-                      <span className="text-lg leading-none">+</span>
-                      <span>Create Quiz</span>
-                    </button>
-                    <button
-                      onClick={() => handleAssignQuiz(topic.id)}
-                      className="flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded text-sm hover:bg-gray-50"
+                      onClick={() => handleUploadClick(topic.id, "document")}
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-300 rounded-lg transition-colors"
                     >
                       <svg
                         className="w-4 h-4"
@@ -218,47 +217,141 @@ const ViewCourse = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                         />
                       </svg>
-                      <span>Assign Quiz</span>
+                      Upload
+                    </button>
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      className="hidden"
+                      ref={(el) => (documentInputRef.current[topic.id] = el)}
+                      onChange={(e) =>
+                        handleFileSelect(topic.id, "document", e.target.files[0])
+                      }
+                    />
+                    {topic.document && (
+                      <p className="text-xs text-gray-600 mt-1">
+                        {topic.document.name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Upload Test */}
+                <div className="grid grid-cols-2 gap-4 items-start">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Upload lecture test
+                    </label>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => handleUploadClick(topic.id, "test")}
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-300 rounded-lg transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      Upload
+                    </button>
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      className="hidden"
+                      ref={(el) => (testInputRef.current[topic.id] = el)}
+                      onChange={(e) =>
+                        handleFileSelect(topic.id, "test", e.target.files[0])
+                      }
+                    />
+                    {topic.test && (
+                      <p className="text-xs text-gray-600 mt-1">
+                        {topic.test.name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Quiz Buttons */}
+                <div className="grid grid-cols-2 gap-4 items-start">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Create quiz
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => handleCreateQuiz(topic.id)}
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-300 rounded-lg transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 4v16m8-8H4"
+                        />
+                      </svg>
+                      Create Quiz
                     </button>
                   </div>
                 </div>
               </div>
             </div>
           ))}
-
-          <button
-            onClick={handleAddTopic}
-            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-sm font-medium mb-6"
-          >
-            <span className="text-lg">+</span>
-            <span>Add Another Topic</span>
-          </button>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-200">
-          <button
-            onClick={handleCancel}
-            className="px-6 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg font-medium text-sm"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleCreateCourse}
-            className="px-6 py-2.5 bg-purple-700 text-white rounded-lg hover:bg-purple-800 font-medium text-sm"
-          >
-            Create Course
-          </button>
+        <div className="flex items-center justify-between gap-4 pt-2">
+          <div>
+            <button
+              onClick={handleAddTopic}
+              className="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-sm font-medium"
+            >
+              <span className="text-lg">+</span>
+              <span>Add Another Topic</span>
+            </button>
+          </div>
+          <div className="flex gap-4">
+            <button
+              onClick={handleCancel}
+              className="px-6 py-2.5 text-gray-700 hover:bg-gray-100 border border-gray-300 rounded-lg font-medium text-sm"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleCreateCourse}
+              className="px-6 py-2.5 bg-[#664286] text-white rounded-lg hover:bg-[#553674] font-medium text-sm"
+            >
+              Create Course
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 🟣 Create Quiz Drawer */}
+      {/* 🟣 Quiz Drawer */}
       <CreateQuizDrawer
         open={quizDrawerOpen}
-        onClose={() => setQuizDrawerOpen(false)}
+        onClose={() => {
+          setQuizDrawerOpen(false);
+          setQuizTopicId(null);
+        }}
         onCreate={handleCreateQuizSubmit}
       />
     </div>

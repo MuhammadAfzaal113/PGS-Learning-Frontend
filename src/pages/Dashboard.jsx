@@ -15,12 +15,12 @@ import { fetchCourses } from '../features/courses/coursesApi';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { items: courses = [], loading } = useSelector((state) => state.courses || {});
-
+  const { items: courseData = {}, loading } = useSelector((state) => state.courses || {});
+  const courses = courseData.results || [];
     // 🔹 Fetch courses when Dashboard mounts
   useEffect(() => {
     dispatch(fetchCourses({ index: 0, offset: 5 }));
-    console.log('Courses in Dashboard:', courses);
+    console.log('Courses in Dashboard:', courses.results);
   }, [dispatch]);
 
   return (

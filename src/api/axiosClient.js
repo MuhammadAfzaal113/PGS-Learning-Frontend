@@ -187,8 +187,11 @@ export async function listCourses(a = 0, b = 10) {
         Authorization: `Bearer ${token}`,
       },
     })
-    console.log('Courses listed', res.data.results)
-    return res.data.results
+    console.log('Courses listed', res.data.total)
+     return {
+      results: res.data.results,
+      total: Number(res.data.total ?? 0)
+    };
   } catch (err) {
     if (err.response && err.response.data) throw err.response.data
     throw { message: err.message || 'Network error' }
@@ -226,5 +229,303 @@ export async function deleteCourse(courseId) {
     throw { message: err.message || 'Network error' }
   }
 }
+
+// ─────────────────────────────────────────────
+// ✅ LESSON CRUD APIs
+// ─────────────────────────────────────────────
+
+const lessonRoot = normalized ? `${normalized}/api/v1/courses/lessons` : '/api/v1/courses/lessons'
+
+// Create Lesson
+export async function createLesson(payload) {
+  /**
+   * payload example:
+   * {
+   *   course_id: "47b48599-9783-4949-9a84-d1bd1b3b872a",
+   *   title: "Introduction to Python",
+   *   description: "Basics of Python programming language",
+   *   order: 1,
+   *   duration_minutes: 30
+   * }
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.post(`${lessonRoot}/create`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// Get Lessons (List by Course ID)
+export async function listLessons(courseId) {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.get(`${lessonRoot}/list`, {
+      params: { course_id: courseId },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.data.results || res.data // handle both structures
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// Update Lesson
+export async function updateLesson(payload) {
+  /**
+   * payload example:
+   * {
+   *   id: "ce3dc6f7-5702-4b86-a033-ea8750c70b0a",
+   *   title: "Updated Lesson Title",
+   *   description: "Updated lesson description",
+   *   order: 2,
+   *   duration_minutes: 45
+   * }
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.put(`${lessonRoot}/update`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// Delete Lesson
+export async function deleteLesson(lessonId) {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.delete(`${lessonRoot}/delete/${lessonId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// ─────────────────────────────────────────────
+// ✅ LESSON RESOURCES APIs
+// ─────────────────────────────────────────────
+
+
+const resourcesRoot = normalized ? `${normalized}/api/v1/courses/resources` : '/api/v1/courses/resources'
+
+// Create resources
+export async function createResource(payload) {
+  /**
+   * payload example:
+   * {
+   *   course_id: "47b48599-9783-4949-9a84-d1bd1b3b872a",
+   *   title: "Introduction to Python",
+   *   description: "Basics of Python programming language",
+   *   order: 1,
+   *   duration_minutes: 30
+   * }
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.post(`${resourcesRoot}/create`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// Get resources (List by Lesson ID)
+export async function listResources(lessonId) {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.get(`${resourcesRoot}/list`, {
+      params: { lesson_id: lessonId },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.data.results || res.data // handle both structures
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// Update resources
+export async function updateResources(payload) {
+  /**
+   * payload example:
+   * {
+  "id": "4090990d-65c0-4d68-a2e9-b64f2fb4d439",
+  "title": "Updated Resource Title",
+  "type": "link",
+  "video_url": "https://new-video-link.com",
+  "external_url": "https://updated-external-link.com",
+  "order": 2
+}
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.put(`${resourcesRoot}/update`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// Delete resources
+export async function deleteResources(resourceId) {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.delete(`${resourcesRoot}/delete/${resourceId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// ─────────────────────────────────────────────
+// ✅ QUIZ & QUESTION APIs
+// ─────────────────────────────────────────────
+
+// Base URL for quizzes and questions
+const quizRoot = normalized ? `${normalized}/api/v1/courses/quiz` : '/api/v1/courses/quiz'
+const questionRoot = normalized ? `${normalized}/api/v1/courses/questions` : '/api/v1/courses/questions'
+
+// -------------------------
+// Create Quiz
+// -------------------------
+export async function createQuiz(payload) {
+  /**
+   * payload example:
+   * {
+   *   lesson: "caae4264-a5e7-4477-bac2-91ca00251945",
+   *   title: "Introduction Quiz",
+   *   description: "This quiz covers basic concepts from the first lesson.",
+   *   time_limit_minutes: 20
+   * }
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.post(`${quizRoot}/create`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// -------------------------
+// List Quizzes (by lesson)
+// -------------------------
+export async function listQuizzes({ lessonId, index = 0, offset = 10 }) {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.get(`${quizRoot}/list`, {
+      params: { lesson_id: lessonId, index, offset },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    // Some responses may have `results`; fallback to direct array
+    return res.data.results || res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// -------------------------
+// Create Question
+// -------------------------
+export async function createQuestion(payload) {
+  /**
+   * payload example:
+   * {
+   *   quiz: "5a7805bd-1e1d-4b09-944a-d3285b8263ed",
+   *   text: "What is the capital of France?",
+   *   options: ["Paris", "London", "Berlin", "Madrid"],
+   *   correct_answer: 0,
+   *   explanation: "Paris is the capital of France.",
+   *   order: 1
+   * }
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.post(`${questionRoot}/create`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// -------------------------
+// List Questions (by quiz)
+// -------------------------
+export async function listQuestions(quizId) {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.get(`${questionRoot}/list`, {
+      params: { quiz_id: quizId },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.data.results || res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+// ─────────────────────────────────────────────
+// ✅ LESSO APIs
+// ──────────────────────────────────────────────
+
 
 export default axiosInstance

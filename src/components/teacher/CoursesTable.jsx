@@ -65,19 +65,21 @@ const CoursesTable = ({ courses = [], loading = false }) => {
   ];
 
   return (
-    <DataTable
-      title="Courses"
-      columns={coursesColumns}
-      data={formattedCourses}
-      showSearch={false}
-      showSortBy={false}
-      showStatus={false}
-      showAddButton={false}
-      showPagination={false}
-      addButtonText="Add Course"
-      searchPlaceholder="Search"
-      loading={loading}
-    />
+    <div className="h-[400px] bg-white rounded-lg shadow">
+      <DataTable
+        title="Courses"
+        columns={coursesColumns}
+        data={formattedCourses}
+        showSearch={false}
+        showSortBy={false}
+        showStatus={false}
+        showAddButton={false}
+        showPagination={false}
+        addButtonText="Add Course"
+        searchPlaceholder="Search"
+        loading={loading}
+      />
+    </div>
   );
 };
 

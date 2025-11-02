@@ -75,7 +75,7 @@ export default function CreateQuizDrawer({ open, onClose, onCreate }) {
                 className="flex flex-col gap-4"
             >
                 <Box>
-                    <Typography variant="subtitle1" fontWeight={500} mb={1}>
+                    <Typography variant="subtitle1" fontWeight={500} mb={0}>
                         Quiz Title
                     </Typography>
                     <TextField

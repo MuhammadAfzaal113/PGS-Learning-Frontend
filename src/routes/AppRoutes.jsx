@@ -30,6 +30,7 @@ import AddInstitute from '../components/superadmin/institutes/institute-add-form
 import InstituteDetails from '../components/superadmin/institutes/institute-detail/InstituteDetails'
 import AddTeacher from '../components/superadmin/teachers/add-teacher-form/AddTeacher'
 import { Institutes, Subscriptions, Teachers } from '../components/superadmin';
+import NotFound from '../pages/NotFound'
 
 export default function AppRoutes() {
   return (
@@ -58,9 +59,9 @@ export default function AppRoutes() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/institutes" element={<Institutes />} />
         <Route path="/superadmin/institutes/add" element={<AddInstitute />} />
-  <Route path="/superadmin/institutes/:id" element={<InstituteDetails />} />
-  <Route path="/teachers" element={<Teachers />} />
-  <Route path="/teachers/add" element={<AddTeacher />} />
+        <Route path="/superadmin/institutes/:id" element={<InstituteDetails />} />
+        <Route path="/teachers" element={<Teachers />} />
+        <Route path="/teachers/add" element={<AddTeacher />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/teacher/courses/add" element={<AddCourse />} />
         <Route path="/teacher/courses/:id" element={<ViewCourse />} />
@@ -77,6 +78,9 @@ export default function AppRoutes() {
         <Route path="/settings" element={<PaymentInvoice />} />
       </Route>
       {/* </Route> */}
+      
+      {/* Catch-all 404 */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
