@@ -1,6 +1,6 @@
 // src/redux/slices/courseSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { createCourse, listCourses, updateCourse, deleteCourse } from '../../api/axiosClient' // adjust path if needed
+import { createCourse, listCourses, updateCourse, deleteCourse } from '../../api/axiosClient'
 
 // --- Async Thunks ---
 
@@ -78,19 +78,33 @@ const courseSlice = createSlice({
         state.error = action.payload?.message || 'Failed to fetch courses'
       })
 
-      // Add course
+  // Add course
       .addCase(addCourse.pending, (state) => {
-        state.loading = true
+        state.loading = true;
+        state.error = null;
       })
       .addCase(addCourse.fulfilled, (state, action) => {
-        state.loading = false
-        state.items.unshift(action.payload?.course || action.payload)
+        state.loading = false;
+        const newCourse = action.payload?.course || action.payload;
+
+        // ✅ Handle invalid or empty payload
+        if (!newCourse || Object.keys(newCourse).length === 0) {
+          state.error = 'Failed to add course: Empty or invalid payload.';
+          return;
+        }
+
+        // ✅ Make sure state.items is always an array
+        if (!Array.isArray(state.items)) {
+          state.items = [];
+        }
+
+        state.items.unshift(newCourse);
       })
       .addCase(addCourse.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.payload?.message || 'Failed to add course'
+        state.loading = false;
+        state.error = action.payload?.message || 'Failed to add course';
       })
-
+      
       // Edit course
       .addCase(editCourse.pending, (state) => {
         state.loading = true
