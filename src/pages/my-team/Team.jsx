@@ -1,88 +1,144 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import DataTable from "../../components/common/DataTable";
+import Pagination from "../../components/common/Pagination";
+import Loader from "../../components/common/Loader";
+import { getTeam } from "../../api/axiosClient";
 
 const Team = () => {
-  const [members, setMembers] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const [members, setMembers] = useState({ results: [], total: 0 });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // 🔹 Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+// 🔹 Fetch team users dynamically on page change
+useEffect(() => {
+  async function fetchMembers() {
     try {
-      const raw = localStorage.getItem('teamMembers');
-      if (raw) setMembers(JSON.parse(raw));
-    } catch (e) {
-      // ignore
+      setLoading(true);
+      setError("");
+
+      const payload = {
+        index: currentPage - 1,
+        offset: itemsPerPage,
+      };
+
+      const res = await getTeam(payload);
+      console.log("Team members response:", res);
+
+      setMembers({
+        results: res.results || [],
+        total: res.total || 0,
+      });
+    } catch (err) {
+      setError(err.message || "Failed to load team members.");
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }
 
-  return (
-    <div className="p-4">
-      <div className="bg-white min-h-screen rounded-lg shadow p-6">
-        {/* Top Bar */}
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold mb-6">My Team</h1>
-          <div className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Search"
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-              Sort by ▼
-            </button>
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-              Status ▼
-            </button>
-            <button
-              onClick={() => navigate('/teacher/my_team/add')}
-              className="px-4 py-2 bg-[#664286] text-white rounded-lg hover:bg-[#7A4B9D]"
-            >
-              Add Team Member
-            </button>
-          </div>
+  fetchMembers();
+}, [currentPage]);
+
+
+  // -----------------------
+  // 🔹 Table Columns
+  // -----------------------
+  const teamColumns = [
+     { header: "ID", key: "id", className: "text-[#424242]", render: (r) => r.id?.slice(-5) || "—" },
+
+    {
+      header: "Name",
+      key: "full_name",
+      render: (row) => (
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-gray-200 flex items-center justify-center">
+            {row.avatar || "👤"}
+          </span>
+          <span className="text-[#424242]">{row.full_name}</span>
         </div>
+      ),
+    },
 
-        {/* Conditional Rendering */}
-        {members.length === 0 ? (
-          <div className="flex flex-col items-center justify-center pt-36">
-            <div className="text-center mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No Team Member Found
-              </h3>
-              <p className="text-gray-500 text-sm max-w-md">
-                No team members have been added yet. Click on the button below to add your team member.
-              </p>
-            </div>
-            <button
-              onClick={() => navigate('/teacher/my_team/add')}
-              className="px-6 py-3 bg-[#664286] text-white rounded-lg hover:bg-[#7A4B9D] font-medium"
-            >
-              Add Team Member
-            </button>
-          </div>
-        ) : (
-          <div className="mt-6">
-            <h2 className="text-lg font-semibold mb-3">Team Members</h2>
-            <div className="space-y-3">
-              {members.map((m) => (
-                <div
-                  key={m.id}
-                  className="p-3 border rounded flex justify-between items-center"
-                >
-                  <div>
-                    <div className="font-medium">{m.name}</div>
-                    <div className="text-sm text-gray-500">
-                      {m.email} • {m.role}
-                    </div>
-                  </div>
-                  <div className="text-sm text-gray-500">{m.phone}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+    { header: "Email", key: "email", className: "text-[#424242]" },
+    { header: "Phone", key: "phone", className: "text-[#424242]" },
+    { header: "Location", key: "location", className: "text-[#424242]" },
+
+    {
+      header: "Registered On",
+      key: "created_at",
+      render: (row) => {
+        if (!row.created_at) return "—";
+        const date = new Date(row.created_at);
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      },
+      className: "text-[#424242]",
+    },
+
+    {
+      header: "",
+      key: "actions",
+      render: () => (
+        <button className="text-gray-400 hover:text-gray-600">⋮</button>
+      ),
+    },
+  ];
+
+  // -----------------------
+  // 🔹 Loading + Error states
+  // -----------------------
+  if (loading)
+    return (
+      <div className="p-6 flex justify-center h-full items-center text-gray-600">
+        <Loader />
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="p-6 text-center text-red-500">
+        <p>⚠️ Failed to load team: {error}</p>
+      </div>
+    );
+
+  // -----------------------
+  // 🔹 Render
+  // -----------------------
+  return (
+    <div className="p-6">
+      <div className="h-full bg-white rounded-lg shadow">
+        <DataTable
+          title="My Team"
+          columns={teamColumns}
+          data={members.results}
+          showSearch={true}
+          showSortBy={true}
+          showStatus={true}
+          showAddButton={true}
+          addButtonText="Add Team Member"
+          onAdd={() => navigate("/teacher/my_team/add")}
+          searchPlaceholder="Search"
+        />
       </div>
 
-      {/* AddTeamMember is now a separate page at /teacher/my_team/add */}
+      {/* Pagination */}
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalCount={members.total}
+          pageSize={itemsPerPage}
+        />
+      </div>
     </div>
   );
 };

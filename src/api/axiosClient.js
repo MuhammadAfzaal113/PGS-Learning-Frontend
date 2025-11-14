@@ -524,8 +524,62 @@ export async function listQuestions(quizId) {
 }
 
 // ─────────────────────────────────────────────
-// ✅ LESSO APIs
-// ──────────────────────────────────────────────
+// ✅ MY TEAM APIs
+// ─────────────────────────────────────────────
 
+// Base URL for quizzes and questions
+const teamRoot = normalized ? `${normalized}/api/v1/company` : '/api/v1/company'
+// const questionRoot = normalized ? `${normalized}/api/v1/courses/questions` : '/api/v1/courses/questions'
+
+export async function createTeam(payload) {
+  /**
+   * payload example:
+   *{
+    "email": "luruce@forexzig.com",
+    "full_name": "Demo",
+    "phone": "1234567890",
+    "user_role": 2
+    }
+   */
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.post(`${teamRoot}/user/create`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return res.data
+  } catch (err) {
+    if (err.response && err.response.data) throw err.response.data
+    throw { message: err.message || 'Network error' }
+  }
+}
+
+export async function getTeam({ index, offset }) {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    const res = await axios.get(
+      `${teamRoot}/get-user-list`,
+      {
+        params: { index, offset },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = res.data;
+
+    return {
+      results: data.results || data.data || [],
+      total: data.total || data.count || 0,
+    };
+  } catch (err) {
+    if (err.response?.data) throw err.response.data;
+    throw { message: err.message || "Network error" };
+  }
+}
 
 export default axiosInstance
