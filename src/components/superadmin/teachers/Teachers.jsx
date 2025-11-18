@@ -93,19 +93,21 @@ const Teachers = () => {
           </table>
         </div>
       </div> */}
-      <DataTable
-        title="Teachers"
-        columns={studentsColumns}
-        data={studentsData}
-        showSearch={true}
-        showSortBy={true}
-        showAddButton={true}
-        showStatus={true}
-        addButtonText="Add Teachers"
-        onAdd={() => navigate('/teachers/add')}
-        searchPlaceholder="Search"
-        showPagination={true}
-      />
+      <div className='h-full bg-white rounded-lg shadow'>
+        <DataTable
+          title="Teachers"
+          columns={studentsColumns}
+          data={studentsData}
+          showSearch={true}
+          showSortBy={true}
+          showAddButton={true}
+          showStatus={true}
+          addButtonText="Add Teachers"
+          onAdd={() => navigate('/teachers/add')}
+          searchPlaceholder="Search"
+          showPagination={true}
+        />
+      </div>
     </div>
   );
 };

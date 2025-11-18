@@ -72,15 +72,17 @@ const Students = () => {
           </table>
         </div>
       </div> */}
-      <DataTable
-        title="Students"
-        columns={studentsColumns}
-        data={studentsData}
-        showSearch={true}
-        showSortBy={true}
-        searchPlaceholder="Search"
-        showPagination={true}
-      />
+      <div className='h-full bg-white rounded-lg shadow'>
+        <DataTable
+          title="Students"
+          columns={studentsColumns}
+          data={studentsData}
+          showSearch={true}
+          showSortBy={true}
+          searchPlaceholder="Search"
+          showPagination={true}
+        />
+      </div>
     </div>
   );
 };

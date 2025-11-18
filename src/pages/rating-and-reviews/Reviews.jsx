@@ -48,7 +48,7 @@ const Reviews = () => {
     }
   ];
   return (
-    <div className="p-4">
+    <div className="p-6">
       {/* <h1 className="text-2xl font-bold mb-6">Ratings & Reviews</h1>
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="mb-6">
@@ -91,6 +91,7 @@ const Reviews = () => {
           </div>
         </div>
       </div> */}
+      <div className='h-full bg-white rounded-lg shadow'>
       <DataTable
         title="Rating & Reviews"
         columns={columns} 
@@ -102,6 +103,7 @@ const Reviews = () => {
         showPagination={true}
         onRowClick={handleRowClick}
       />
+      </div>
             {/* Review Modal */}
       {showModal && selectedReview && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
