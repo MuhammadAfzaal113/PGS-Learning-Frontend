@@ -74,6 +74,7 @@ const Subscriptions = () => {
           </table>
         </div>
       </div> */}
+      <div className='h-full bg-white rounded-lg shadow'>
       <DataTable
         title="Students"
         columns={studentsColumns}
@@ -83,6 +84,7 @@ const Subscriptions = () => {
         searchPlaceholder="Search"
         showPagination={true}
       />
+      </div>
     </div>
   );
 };

@@ -93,19 +93,21 @@ const Institutes = () => {
           </table>
         </div>
       </div> */}
-      <DataTable
-        title="Sub Admins"
-        columns={studentsColumns}
-        data={studentsData}
-        showSearch={true}
-        showSortBy={true}
-        showAddButton={true}
-        showStatus={true}
-        addButtonText="Add Institute"
-        onAdd={() => navigate('/superadmin/institutes/add')}
-        searchPlaceholder="Search"
-        showPagination={true}
-      />
+      <div className='h-full bg-white rounded-lg shadow'>
+        <DataTable
+          title="Sub Admins"
+          columns={studentsColumns}
+          data={studentsData}
+          showSearch={true}
+          showSortBy={true}
+          showAddButton={true}
+          showStatus={true}
+          addButtonText="Add Institute"
+          onAdd={() => navigate('/superadmin/institutes/add')}
+          searchPlaceholder="Search"
+          showPagination={true}
+        />
+      </div>
     </div>
   );
 };

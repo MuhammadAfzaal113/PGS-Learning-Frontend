@@ -70,11 +70,12 @@ useEffect(() => {
     { header: "Location", key: "location", className: "text-[#424242]" },
 
     {
-      header: "Registered On",
+      header: "Added On",
       key: "created_at",
       render: (row) => {
-        if (!row.created_at) return "—";
-        const date = new Date(row.created_at);
+        const createdAt = row.company_user?.created_at;  // <-- FIX HERE
+        if (!createdAt) return "—";
+        const date = new Date(createdAt);
         return date.toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
@@ -83,7 +84,6 @@ useEffect(() => {
       },
       className: "text-[#424242]",
     },
-
     {
       header: "",
       key: "actions",

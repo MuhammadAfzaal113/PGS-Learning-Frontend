@@ -9,16 +9,24 @@ const Quizzes = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { quizzes, loading, error } = useSelector((state) => state.quiz);
+  // const { quizzes, loading, error } = useSelector((state) => state?.quiz);
 
   // ✅ Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   // ✅ Fetch quizzes when page changes
-  useEffect(() => {
-    dispatch(fetchQuizzes({ index: currentPage - 1, offset: itemsPerPage }));
-  }, [dispatch, currentPage]);
+  // useEffect(() => {
+  //   dispatch(fetchQuizzes({ index: currentPage - 1, offset: itemsPerPage }));
+  // }, [dispatch, currentPage]);
+
+    const coursesData = [
+    { id: '564566', title: 'Principles of UI Design', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', title: 'UX Design', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', title: 'Basics of Python', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', title: 'Basics of linguistics', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'In-Active' },
+    { id: '564566', title: 'Principles of UI Design', questions: '07', hours: '32h, 30min', price: '$29.00', students: '08', rating: 5.0, addedOn: 'Sep 28, 2025', status: 'In-Approval' },
+  ];
 
   // ✅ Columns
   const columns = [
@@ -58,34 +66,36 @@ const Quizzes = () => {
   ];
 
   // ✅ Handle loading & errors
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-40 text-gray-500">
-        Loading quizzes...
-      </div>
-    );
+  // if (loading)
+  //   return (
+  //     <div className="flex justify-center items-center h-40 text-gray-500">
+  //       Loading quizzes...
+  //     </div>
+  //   );
 
-  if (error)
-    return (
-      <div className="text-center text-red-500 py-6">
-        Failed to load quizzes: {error}
-      </div>
-    );
+  // if (error)
+  //   return (
+  //     <div className="text-center text-red-500 py-6">
+  //       Failed to load quizzes: {error}
+  //     </div>
+  //   );
 
   // ✅ Handle empty state
-  const tableData = Array.isArray(quizzes?.results || quizzes)
-    ? quizzes?.results || quizzes
-    : [];
+  // const tableData = Array.isArray(quizzes?.results || quizzes)
+  //   ? quizzes?.results || quizzes
+  //   : [];
 
-  const total = quizzes?.total || tableData.length || 0;
-  const totalPages = Math.ceil(total / itemsPerPage);
+  // const total = quizzes?.total || tableData.length || 0;
+  // const totalPages = Math.ceil(total / itemsPerPage);
 
   return (
-    <div className="h-full bg-white rounded-lg shadow p-6">
+    <div className="p-6">
+      <div className='h-full bg-white rounded-lg shadow'>
+
       <DataTable
         title="Quizzes"
         columns={columns}
-        data={tableData}
+        data={coursesData}
         showSearch={true}
         showSortBy={true}
         showStatus={true}
@@ -94,9 +104,10 @@ const Quizzes = () => {
         onAdd={() => navigate('/teacher/quizes/create')}
         searchPlaceholder="Search"
       />
+      </div>
 
       {/* ✅ External Pagination */}
-      {totalPages > 1 && (
+      {/* {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
@@ -105,7 +116,7 @@ const Quizzes = () => {
           endIndex={Math.min(currentPage * itemsPerPage, total)}
           totalCount={total}
         />
-      )}
+      )} */}
     </div>
   );
 };

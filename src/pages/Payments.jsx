@@ -42,7 +42,7 @@ const Payments = () => {
     }
   ];
   return (
-    <div className="p-4">
+    <div className="p-6">
       {/* <h1 className="text-2xl font-bold mb-6">Payments</h1>
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="mb-6">
@@ -91,6 +91,7 @@ const Payments = () => {
           </div>
         </div>
       </div> */}
+      <div className='h-full bg-white rounded-lg shadow'>
       <DataTable
         title="Payments"
         columns={paymentsColumns}
@@ -100,6 +101,7 @@ const Payments = () => {
         showSortBy={true}
         showStatus={true}
       />
+      </div>
 
     </div>
   );

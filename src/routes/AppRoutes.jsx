@@ -30,7 +30,8 @@ import AddInstitute from '../components/superadmin/institutes/institute-add-form
 import InstituteDetails from '../components/superadmin/institutes/institute-detail/InstituteDetails'
 import AddTeacher from '../components/superadmin/teachers/add-teacher-form/AddTeacher'
 import { Institutes, Subscriptions, Teachers } from '../components/superadmin';
-import NotFound from '../pages/NotFound'
+import NotFound from '../pages/NotFound';
+import Setting from '../pages/setting/setting';
 
 export default function AppRoutes() {
   return (
@@ -75,7 +76,7 @@ export default function AppRoutes() {
         <Route path="/teacher/payments/invoice" element={<PaymentInvoice />} />
         <Route path="/rating_and_reviews" element={<Reviews />} />
         <Route path="/permissions" element={<Permissions />} />
-        <Route path="/settings" element={<PaymentInvoice />} />
+        <Route path="/settings" element={<Setting />} />
       </Route>
       {/* </Route> */}
       
