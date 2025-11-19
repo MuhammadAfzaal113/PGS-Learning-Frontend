@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const DataTable = ({ 
@@ -15,6 +15,8 @@ const DataTable = ({
   onRowClick
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortField, setSortField] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const location = useLocation();
   const isTeacherDashboard = location.pathname.includes('/dashboard');
 
@@ -22,12 +24,29 @@ const DataTable = ({
   const safeData = Array.isArray(data) ? data : [];
 
   // ✅ Filter data based on search
-  const filteredData = safeData.filter(row => {
-    return columns.some(col => {
-      const value = col.render ? col.render(row) : row[col.key];
-      return String(value).toLowerCase().includes(searchTerm.toLowerCase());
-    });
-  });
+    let filteredData = safeData.filter(row =>
+      columns.some(col => {
+        const searchField = col.searchKey || col.key;
+        const value = row[searchField];
+        return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+
+    // SORT logic
+    if (sortField) {
+      filteredData = [...filteredData].sort((a, b) => {
+        const valueA = a[sortField];
+        const valueB = b[sortField];
+
+        if (typeof valueA === "string") {
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        }
+
+        return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+      });
+    }
 
   // ✅ Only make rows clickable for the "Rating & Reviews" table
   const isReviewTable = title === 'Rating & Reviews';
@@ -54,9 +73,33 @@ const DataTable = ({
             />
           )}
           {showSortBy && (
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+            <select
+              value={sortField}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (sortField === value) {
+                  // same field → toggle order
+                  setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                } else {
+                  // new field → set ascending
+                  setSortField(value);
+                  setSortOrder("asc");
+                }
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-lg appearance-none"
+            >
+            <option value="" >
               Sort by ▼
-            </button>
+            </option>
+
+              {columns
+                .filter(col => col.sortable)
+                .map((col, idx) => (
+                  <option key={idx} value={col.sortKey || col.key}>
+                    {col.header}
+                  </option>
+                ))}
+            </select>
           )}
           {showStatus && (
             <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">

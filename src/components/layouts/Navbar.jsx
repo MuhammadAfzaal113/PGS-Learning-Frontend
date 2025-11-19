@@ -8,9 +8,6 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 
-
-
-
 const Navbar = () => {
     const navigate = useNavigate();
     const [search, setsearch] = React.useState('');
@@ -54,8 +51,6 @@ const Navbar = () => {
         { path: '/permissions', label: 'Permissions', icon: '🔒' },
         { path: '/settings', label: 'Settings', icon: '⚙️' },
     ];
-
-
 
 
     return (

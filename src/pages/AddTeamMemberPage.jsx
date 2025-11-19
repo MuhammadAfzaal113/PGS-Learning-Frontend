@@ -9,7 +9,7 @@ import {
   Typography,
   FormHelperText,
 } from '@mui/material';
-import { createTeam } from '../api/axiosClient';
+import { protectedAPI } from "../api/axiosClient";
 
 const AddTeamMemberPage = () => {
   const [formData, setFormData] = useState({
@@ -79,7 +79,7 @@ const AddTeamMemberPage = () => {
     };
 
     try {
-      const res = await createTeam(payload);
+        const res = await protectedAPI.createTeam(payload);
       console.log('Team member created:', res);
           // 👉 SUCCESS → Show Modal (do NOT navigate yet)
       setShowModal(true);

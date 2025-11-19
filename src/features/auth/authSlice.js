@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { refreshAuth } from '../../api/axiosClient'
+// import { refreshAuth } from '../../api/axiosClient'
 
 // ✅ Async thunk for login
 export const loginUser = createAsyncThunk(

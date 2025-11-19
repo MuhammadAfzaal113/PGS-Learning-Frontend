@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DataTable from "../../components/common/DataTable";
 import Pagination from "../../components/common/Pagination";
 import Loader from "../../components/common/Loader";
-import { getTeam } from "../../api/axiosClient";
+import { protectedAPI } from "../../api/axiosClient";
 
 const Team = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ useEffect(() => {
         offset: itemsPerPage,
       };
 
-      const res = await getTeam(payload);
+      const res = await protectedAPI.getTeam(payload);
       console.log("Team members response:", res);
 
       setMembers({
@@ -63,11 +63,12 @@ useEffect(() => {
           <span className="text-[#424242]">{row.full_name}</span>
         </div>
       ),
+      searchKey: "full_name",
     },
 
-    { header: "Email", key: "email", className: "text-[#424242]" },
-    { header: "Phone", key: "phone", className: "text-[#424242]" },
-    { header: "Location", key: "location", className: "text-[#424242]" },
+    { header: "Email", key: "email", className: "text-[#424242]", searchKey: "email" },
+    { header: "Phone", key: "phone", className: "text-[#424242]", searchKey: "phone" },
+    { header: "Location", key: "location", className: "text-[#424242]", searchKey: "location" },
 
     {
       header: "Added On",

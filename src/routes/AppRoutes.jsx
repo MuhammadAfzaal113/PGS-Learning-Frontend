@@ -32,6 +32,10 @@ import AddTeacher from '../components/superadmin/teachers/add-teacher-form/AddTe
 import { Institutes, Subscriptions, Teachers } from '../components/superadmin';
 import NotFound from '../pages/NotFound';
 import Setting from '../pages/setting/setting';
+import UserInfo from '../pages/setting/user-info/UserInfo';
+import InstituteInfo from '../pages/setting/institute-info/InstituteInfo';
+import { Navigate } from "react-router-dom";
+
 
 export default function AppRoutes() {
   return (
@@ -76,7 +80,16 @@ export default function AppRoutes() {
         <Route path="/teacher/payments/invoice" element={<PaymentInvoice />} />
         <Route path="/rating_and_reviews" element={<Reviews />} />
         <Route path="/permissions" element={<Permissions />} />
-        <Route path="/settings" element={<Setting />} />
+        <Route path="/settings/*" element={<Setting />}>
+        <Route index element={<Navigate to="userinfo" replace />} />
+          <Route path="userinfo" element={<UserInfo />} />
+          <Route path="institute" element={<InstituteInfo />} />
+          <Route path="notifications" element={<div>Notifications Coming Soon</div>} />
+          <Route path="password" element={<div>Password Page</div>} />
+          <Route path="subscription" element={<div>Subscription Page</div>} />
+          <Route path="payment-methods" element={<div>Payment Methods Page</div>} />
+        </Route>
+
       </Route>
       {/* </Route> */}
       

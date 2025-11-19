@@ -23,8 +23,8 @@ const Courses = () => {
   }, [dispatch, currentPage]);
 
   const coursesColumns = [
-    { header: "ID", key: "id", className: "text-[#424242]", render: (r) => r.id?.slice(-5) || "—" },
-    { header: "Name", key: "title", className: "text-[#424242]" },
+    { header: "ID", key: "id", className: "text-[#424242]", render: (r) => r.id?.slice(-5) || "—" , sortable: true},
+    { header: "Name", key: "title", className: "text-[#424242]", searchKey: "title" },
     { header: "Topics", key: "topics", className: "text-[#424242]" },
     { header: "Total Hours", key: "hours", className: "text-[#424242]" },
     {
@@ -32,6 +32,7 @@ const Courses = () => {
       key: "price",
       render: (row) => `$${parseFloat(row.price || 0).toFixed(2)}`,
       className: "text-[#424242]",
+      sortable: true
     },
     { header: "Students", key: "students", className: "text-[#424242]" },
     {

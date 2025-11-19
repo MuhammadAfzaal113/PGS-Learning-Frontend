@@ -4,71 +4,87 @@ import {
   listLessons,
   updateLesson,
   deleteLesson,
-} from '../../api/axiosClient' // adjust path if needed
+} from '../../api/axiosClient'
 
-// --- Async Thunks ---
+// ─────────────────────────────────────────────
+// 🔥 ASYNC THUNKS
+// ─────────────────────────────────────────────
 
+// Fetch Lessons
 export const fetchLessons = createAsyncThunk(
-  'lessons/list',
+  'lessons/fetchAll',
   async ({ courseId }, { rejectWithValue }) => {
     try {
-      const data = await listLessons(courseId)
-      console.log('Fetched lessons data:', data)
-      return data
+      const res = await listLessons(courseId)
+      return res || []
     } catch (err) {
       return rejectWithValue(err)
     }
   }
 )
 
+// Add Lesson
 export const addLesson = createAsyncThunk(
-  'lessons/addLesson',
+  'lessons/add',
   async (formData, { rejectWithValue }) => {
     try {
-      const data = await createLesson(formData)
-      return data
+      const res = await createLesson(formData)
+      return res?.lesson || res
     } catch (err) {
       return rejectWithValue(err)
     }
   }
 )
 
+// Edit Lesson
 export const editLesson = createAsyncThunk(
-  'lessons/editLesson',
+  'lessons/edit',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await updateLesson(payload)
-      return data
+      const res = await updateLesson(payload)
+      return res?.lesson || res
     } catch (err) {
       return rejectWithValue(err)
     }
   }
 )
 
+// Delete Lesson
 export const removeLesson = createAsyncThunk(
-  'lessons/removeLesson',
+  'lessons/remove',
   async (id, { rejectWithValue }) => {
     try {
-      const data = await deleteLesson(id)
-      return { id, ...data }
+      await deleteLesson(id)
+      return id
     } catch (err) {
       return rejectWithValue(err)
     }
   }
 )
 
-// --- Slice ---
+// ─────────────────────────────────────────────
+// 🧩 INITIAL STATE
+// ─────────────────────────────────────────────
+
+const initialState = {
+  items: [],
+  loading: false,
+  error: null,
+}
+
+// ─────────────────────────────────────────────
+// 🧠 SLICE
+// ─────────────────────────────────────────────
+
 const lessonSlice = createSlice({
   name: 'lessons',
-  initialState: {
-    items: [],
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch lessons
+      // ─────────────────────────────────────────────
+      // 📌 FETCH LESSONS
+      // ─────────────────────────────────────────────
       .addCase(fetchLessons.pending, (state) => {
         state.loading = true
         state.error = null
@@ -79,58 +95,65 @@ const lessonSlice = createSlice({
       })
       .addCase(fetchLessons.rejected, (state, action) => {
         state.loading = false
-        state.error = action.payload?.message || 'Failed to fetch lessons'
+        state.error =
+          action.payload?.message || 'Failed to load lessons.'
       })
 
-      // Add lesson
+      // ─────────────────────────────────────────────
+      // 📌 ADD LESSON
+      // ─────────────────────────────────────────────
       .addCase(addLesson.pending, (state) => {
         state.loading = true
         state.error = null
       })
       .addCase(addLesson.fulfilled, (state, action) => {
         state.loading = false
-        const newLesson = action.payload?.lesson || action.payload
+        const lesson = action.payload
 
-        // ✅ Handle invalid or empty payload
-        if (!newLesson || Object.keys(newLesson).length === 0) {
-          state.error = 'Failed to add lesson: Empty or invalid payload.'
+        if (!lesson || typeof lesson !== 'object') {
+          state.error = 'Invalid lesson data returned.'
           return
         }
 
-        // ✅ Ensure state.items is always an array
-        if (!Array.isArray(state.items)) {
-          state.items = []
-        }
-
-        state.items.unshift(newLesson)
+        state.items.unshift(lesson)
       })
       .addCase(addLesson.rejected, (state, action) => {
         state.loading = false
-        state.error = action.payload?.message || 'Failed to add lesson'
+        state.error =
+          action.payload?.message || 'Failed to add lesson.'
       })
 
-      // Edit lesson
+      // ─────────────────────────────────────────────
+      // 📌 EDIT LESSON
+      // ─────────────────────────────────────────────
       .addCase(editLesson.pending, (state) => {
         state.loading = true
       })
       .addCase(editLesson.fulfilled, (state, action) => {
         state.loading = false
+        const updated = action.payload
         const index = state.items.findIndex(
-          (l) => l.id === action.payload?.lesson?.id
+          (l) => l.id === updated?.id
         )
-        if (index !== -1) state.items[index] = action.payload.lesson
+        if (index !== -1) {
+          state.items[index] = updated
+        }
       })
       .addCase(editLesson.rejected, (state, action) => {
         state.loading = false
-        state.error = action.payload?.message || 'Failed to edit lesson'
+        state.error =
+          action.payload?.message || 'Failed to edit lesson.'
       })
 
-      // Delete lesson
+      // ─────────────────────────────────────────────
+      // 📌 DELETE LESSON
+      // ─────────────────────────────────────────────
       .addCase(removeLesson.fulfilled, (state, action) => {
-        state.items = state.items.filter((l) => l.id !== action.payload.id)
+        state.items = state.items.filter((l) => l.id !== action.payload)
       })
       .addCase(removeLesson.rejected, (state, action) => {
-        state.error = action.payload?.message || 'Failed to delete lesson'
+        state.error =
+          action.payload?.message || 'Failed to delete lesson.'
       })
   },
 })
