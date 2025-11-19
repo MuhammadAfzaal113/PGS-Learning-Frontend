@@ -1,6 +1,6 @@
 // src/redux/slices/courseSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { createCourse, listCourses, updateCourse, deleteCourse } from '../../api/axiosClient'
+import { protectedAPI } from "../../api/axiosClient";
 
 // --- Async Thunks ---
 
@@ -8,50 +8,50 @@ export const fetchCourses = createAsyncThunk(
   'courses/list',
   async ({ index = 0, offset = 10 }, { rejectWithValue }) => {
     try {
-      const data = await listCourses({ index, offset })
-      console.log('Fetched courses data:', data)
-      return data
+      const data = await protectedAPI.listCourses({ index, offset });
+      return data;
     } catch (err) {
-      return rejectWithValue(err)
+      return rejectWithValue(err);
     }
   }
-)
+);
 
 export const addCourse = createAsyncThunk(
   'courses/addCourse',
   async (formData, { rejectWithValue }) => {
     try {
-      const data = await createCourse(formData)
-      return data
+      const data = await protectedAPI.createCourse(formData);
+      return data;
     } catch (err) {
-      return rejectWithValue(err)
+      return rejectWithValue(err);
     }
   }
-)
+);
 
 export const editCourse = createAsyncThunk(
   'courses/editCourse',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await updateCourse(payload)
-      return data
+      const data = await protectedAPI.updateCourse(payload);
+      return data;
     } catch (err) {
-      return rejectWithValue(err)
+      return rejectWithValue(err);
     }
   }
-)
+);
 
 export const removeCourse = createAsyncThunk(
   'courses/removeCourse',
   async (id, { rejectWithValue }) => {
     try {
-      const data = await deleteCourse(id)
-      return { id, ...data }
+      const data = await protectedAPI.deleteCourse(id);
+      return data;
     } catch (err) {
-      return rejectWithValue(err)
+      return rejectWithValue(err);
     }
   }
-)
+);
+
 
 // --- Slice ---
 const courseSlice = createSlice({

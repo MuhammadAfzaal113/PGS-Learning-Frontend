@@ -1,11 +1,12 @@
 import React from 'react';
 import DataTable from '../../components/common/DataTable';
+import Avatar from '../../components/common/Avatar';
 
 const PaymentsTable = ({ payments }) => {
  const paymentsData = [
-    { id: '564566', name: 'Cameron Williamson', avatar: '👨', email: 'cameron.william@gmail.com', course: 'Principle of UI Design', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
-    { id: '564566', name: 'Darrell Steward', avatar: '👨', email: 'darrelstew9205@gmail.com', course: 'Principle of UI Design', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
-    { id: '564566', name: 'Albert Flores', avatar: '👨', email: 'albertflores@gmail.com', course: 'Basics of Python', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', name: 'Cameron Williamson', avatar: '', email: 'cameron.william@gmail.com', course: 'Principle of UI Design', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', name: 'Darrell Steward', avatar: '', email: 'darrelstew9205@gmail.com', course: 'Principle of UI Design', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
+    { id: '564566', name: 'Albert Flores', avatar: '', email: 'albertflores@gmail.com', course: 'Basics of Python', amount: '$50.00', date: 'Sep 28, 2025', status: 'Active' },
   ];
 
   const paymentsColumns = [
@@ -15,7 +16,7 @@ const PaymentsTable = ({ payments }) => {
       key: 'name',
       render: (row) => (
         <div className="flex items-center gap-2">
-          <span className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">{row.avatar}</span>
+            <Avatar src={row.avatar} name={row.name} />
           <span className="text-[#424242]">{row.name}</span>
         </div>
       )

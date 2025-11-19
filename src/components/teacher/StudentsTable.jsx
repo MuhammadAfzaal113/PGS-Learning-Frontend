@@ -1,15 +1,15 @@
 import React from 'react';
 import DataTable from '../../components/common/DataTable';
+import Avatar from '../../components/common/Avatar';
 
 const StudentsTable = ({ students }) => {
   const studentsData = [
-    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
-    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
-    { id: '564566', name: 'Cody Fisher', avatar: '👨', courses: '07', email: 'codyfisher@example.com', phone: '(808) 555-0111', location: 'Corona, Michigan', registeredOn: 'Sep 28, 2025' },
-    // { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Ralph Edwards', avatar: '', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Eleanor Pena', avatar: '', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Cody Fisher', avatar: '', courses: '07', email: 'codyfisher@example.com', phone: '(808) 555-0111', location: 'Corona, Michigan', registeredOn: 'Sep 28, 2025' },
+    { id: '564566', name: 'Eleanor Pena', avatar: '', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
     // { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
-
-  ];
+  ];s
 
   const studentsColumns = [
     { header: 'ID', key: 'id', className: 'text-[#424242]' },
@@ -18,7 +18,7 @@ const StudentsTable = ({ students }) => {
       key: 'name',
       render: (row) => (
         <div className="flex items-center gap-2">
-          <span className=" rounded-full bg-gray-200 flex items-center justify-center">{row.avatar}</span>
+          <Avatar src={row.avatar} name={row.name} />
           <span className="text-[#424242]">{row.name}</span>
         </div>
       )
