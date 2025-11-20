@@ -220,14 +220,34 @@ export const protectedAPI = {
   createTeam: (payload) =>
     request.post("/company/user/create", payload),
 
-  getTeam: ({ index, offset }) =>
-    request.get("/company/get-user-list", { params: { index, offset } }),
+  getTeam: ({ index, offset, role }) =>
+    request.get("/company/get-user-list", { params: { index, offset, role } }),
 
   // -------------------------
   // DASHBOARD STATS (NEW)
   // -------------------------
   getDashboardStats: () =>
     request.get("/company/teacher/dashboard-stats"), 
+
+  // -------------------------
+  // Students
+  // -------------------------
+  getStudents: ({ index, offset, role }) =>
+    request.get("/company/get-user-list", { params: { index, offset, role } }),
+
+  // -------------------------
+  // USER AUTH
+  // -------------------------
+  authMe: () => request.get("/user/auth/me"),
+
+  // -------------------------
+  // STUDENTS
+  // -------------------------
+  getStudents: ({ index = 0, offset = 10 } = {}) =>
+    request.get("/user/get-student-list", {
+      params: { index, offset },
+    }),
+
 };
 
 // Export the axios instance
