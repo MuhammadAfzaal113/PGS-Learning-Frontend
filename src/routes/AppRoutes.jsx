@@ -50,16 +50,17 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route element={<ProtectedRoute />}>
+      {/* <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-      </Route>
+      </Route> */}
       <Route element={<ProtectedRoute requiredPermission="project:view" />}>
         <Route path="/projects/:id" element={<ProjectPage />} />
       </Route>
       {/* Teacher Routes */}
       {/* <Route element={<ProtectedRoute requiredPermission="teacher:access" />}> */}
       <Route element={<Layouts />}>
+        <Route path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/institutes" element={<Institutes />} />

@@ -4,6 +4,8 @@ import DataTable from "../../components/common/DataTable";
 import Pagination from "../../components/common/Pagination";
 import Loader from "../../components/common/Loader";
 import { protectedAPI } from "../../api/axiosClient";
+import { useSelector } from "react-redux";
+import Avatar from "../../components/common/Avatar";
 
 const Team = () => {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ const Team = () => {
   const [members, setMembers] = useState({ results: [], total: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const role = useSelector((state) => state.auth.user?.user_role);
 
   // 🔹 Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +29,7 @@ useEffect(() => {
       const payload = {
         index: currentPage - 1,
         offset: itemsPerPage,
+        role
       };
 
       const res = await protectedAPI.getTeam(payload);
@@ -50,16 +54,14 @@ useEffect(() => {
   // 🔹 Table Columns
   // -----------------------
   const teamColumns = [
-     { header: "ID", key: "id", className: "text-[#424242]", render: (r) => r.id?.slice(-5) || "—" },
+     { header: "ID", key: "id", className: "text-[#424242]", render: (r) => r.id?.slice(-5) || "—", sortable: true },
 
     {
       header: "Name",
       key: "full_name",
       render: (row) => (
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-gray-200 flex items-center justify-center">
-            {row.avatar || "👤"}
-          </span>
+          <Avatar src={row.avatar} name={row.full_name} />
           <span className="text-[#424242]">{row.full_name}</span>
         </div>
       ),
@@ -67,8 +69,8 @@ useEffect(() => {
     },
 
     { header: "Email", key: "email", className: "text-[#424242]", searchKey: "email" },
-    { header: "Phone", key: "phone", className: "text-[#424242]", searchKey: "phone" },
-    { header: "Location", key: "location", className: "text-[#424242]", searchKey: "location" },
+    { header: "Phone", key: "phone", className: "text-[#424242]", searchKey: "phone",sortable: true },
+    { header: "Location", key: "location", className: "text-[#424242]", searchKey: "location", sortable: true },
 
     {
       header: "Added On",
@@ -84,6 +86,7 @@ useEffect(() => {
         });
       },
       className: "text-[#424242]",
+      sortable: true
     },
     {
       header: "",
