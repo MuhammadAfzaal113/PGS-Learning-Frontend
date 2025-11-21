@@ -80,6 +80,7 @@ export const refreshAccessToken = createAsyncThunk(
 // -------------------------------
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
+  tenant: JSON.parse(localStorage.getItem("tenant")) || null,
   role: null,
   accessToken: localStorage.getItem("accessToken") || null,
   refreshToken: localStorage.getItem("refreshToken") || null,
@@ -147,9 +148,11 @@ const authSlice = createSlice({
       })
       .addCase(AuthMe.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        state.role = action.payload.role_id;
-        localStorage.setItem("user", JSON.stringify(action.payload));
+        state.user = action.payload.user;
+        state.tenant = action.payload.tenant;
+        state.role = action.payload.user?.user_role || null;
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        localStorage.setItem("tenant", JSON.stringify(action.payload.tenant));
       })
       .addCase(AuthMe.rejected, (state, action) => {
         state.loading = false;

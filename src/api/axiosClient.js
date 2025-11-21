@@ -214,6 +214,8 @@ export const protectedAPI = {
   createQuiz: (data) =>
     request.post("/courses/quiz/create", data),
 
+
+
   // -------------------------
   // TEAM
   // -------------------------
@@ -247,6 +249,12 @@ export const protectedAPI = {
     request.get("/user/get-student-list", {
       params: { index, offset },
     }),
+
+  // -------------------------
+  // UPDATE PROFILE
+  // -------------------------
+  updateUserInfo: (payload) =>
+    request.put("/user/update-profile", payload),
 
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Select, MenuItem, FormControl } from "@mui/material";
 
 const DataTable = ({ 
   columns, 
@@ -73,33 +74,41 @@ const DataTable = ({
             />
           )}
           {showSortBy && (
-            <select
-              value={sortField}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (sortField === value) {
-                  // same field → toggle order
-                  setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                } else {
-                  // new field → set ascending
-                  setSortField(value);
-                  setSortOrder("asc");
-                }
-              }}
-              className="px-4 py-2 border border-gray-300 rounded-lg appearance-none"
-            >
-            <option value="" >
-              Sort by ▼
-            </option>
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <Select
+                value={sortField || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
 
-              {columns
-                .filter(col => col.sortable)
-                .map((col, idx) => (
-                  <option key={idx} value={col.sortKey || col.key}>
-                    {col.header}
-                  </option>
-                ))}
-            </select>
+                  if (sortField === value) {
+                    // same field → toggle order
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  } else {
+                    // new field → set ascending
+                    setSortField(value);
+                    setSortOrder("asc");
+                  }
+                }}
+                displayEmpty
+                sx={{
+                  background: "white",
+                  borderRadius: "8px",
+                  fontSize: "14px",
+                }}
+              >
+                <MenuItem value="">
+                  <em>Sort by</em>
+                </MenuItem>
+
+                {columns
+                  .filter((col) => col.sortable)
+                  .map((col, idx) => (
+                    <MenuItem key={idx} value={col.sortKey || col.key}>
+                      {col.header}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           )}
           {showStatus && (
             <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">

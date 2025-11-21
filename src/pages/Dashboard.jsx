@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCourses } from '../features/courses/coursesApi';
 import { protectedAPI } from '../api/axiosClient';
 import Loader from "../components/common/Loader";
+import { AuthMe } from "../features/auth/authSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { items: courseData = {}, loading } = useSelector((state) => state.courses || {});
   const courses = courseData.results || [];
+  const [students, setStudents] = useState([]);
 
   // 🔹 Dashboard stats state
   const [stats, setStats] = useState({
@@ -34,16 +36,26 @@ const Dashboard = () => {
   // 🔹 Fetch courses & dashboard stats
   useEffect(() => {
     dispatch(fetchCourses({ index: 0, offset: 5 }));
+    dispatch(AuthMe());
 
-    const fetchStats = async () => {
+    const fetchAPIs = async () => {
       try {
         setStatsLoading(true);
         setStatsError("");
-        const res = await protectedAPI.getDashboardStats();
-        if (res.success) {
-          setStats(res.results);
+
+        const payload = { index: 0, offset: 4 };
+
+        const [statsRes, studentsRes] = await Promise.all([
+          protectedAPI.getDashboardStats(),
+          protectedAPI.getStudents(payload)
+        ]);
+
+        console.log("Students API Response:", statsRes);
+        setStudents(studentsRes?.data || []);
+        if (statsRes?.success) {
+          setStats(statsRes?.results);
         } else {
-          setStatsError(res.message || "Failed to fetch stats");
+          setStatsError(statsRes.data?.message || "Failed to fetch stats");
         }
       } catch (err) {
         setStatsError(err.message || "Failed to fetch stats");
@@ -52,7 +64,7 @@ const Dashboard = () => {
       }
     };
 
-    fetchStats();
+    fetchAPIs();
   }, [dispatch]);
 
   if (statsLoading) {
@@ -111,7 +123,7 @@ const Dashboard = () => {
 
       {/* Tables */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <StudentsTable />
+        <StudentsTable students={students} loading={loading} />
         <CoursesTable courses={courses} loading={loading} />
         <div className="lg:col-span-2">
           <PaymentsTable />
