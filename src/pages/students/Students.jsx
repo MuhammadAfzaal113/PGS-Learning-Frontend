@@ -1,87 +1,94 @@
-import React from 'react';
-import DataTable from '../../components/common/DataTable';
+import React, { useEffect, useState } from "react";
+import DataTable from "../../components/common/DataTable";
+import { protectedAPI } from "../../api/axiosClient";
+import Avatar from "../../components/common/Avatar";
+import Loader from "../../components/common/Loader";
 
 const Students = () => {
-    const studentsData = [
-    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
-    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
-    { id: '564566', name: 'Cody Fisher', avatar: '👨', courses: '07', email: 'codyfisher@example.com', phone: '(808) 555-0111', location: 'Corona, Michigan', registeredOn: 'Sep 28, 2025' },
-    { id: '564566', name: 'Eleanor Pena', avatar: '👩', courses: '07', email: 'elenor.pena@example.com', phone: '(684) 555-0102', location: 'Lansing, Illinois', registeredOn: 'Sep 28, 2025' },
-    { id: '564566', name: 'Ralph Edwards', avatar: '👨', courses: '07', email: 'ralph.edwards@example.com', phone: '(704) 555-0127', location: 'Kent, Utah', registeredOn: 'Sep 28, 2025' },
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  ];
+    // 🔹 Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+  // Fetch students
+  const fetchStudents = async () => {
+    try {
+      setLoading(true);
+
+       const payload = {
+        index: currentPage - 1,
+        offset: itemsPerPage,
+      };
+
+      const res = await protectedAPI.getStudents(payload);
+      console.log("Fetched students:", res);
+
+      // Adjust based on API response structure
+      setStudents(res?.data || []); 
+    } catch (err) {
+      console.error("Failed to fetch students:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
 
   const studentsColumns = [
-    { header: 'ID', key: 'id', className: 'text-[#424242]' },
-    { 
-      header: 'Name', 
-      key: 'name',
+    { header: 'ID', key: 'id', className: 'text-[#424242]', render: (r) => r.id?.slice(-5) || "—" , sortable: true },
+    {
+      header: 'Name',
+      key: 'full_name',
       render: (row) => (
         <div className="flex items-center gap-2">
-          <span className=" rounded-full bg-gray-200 flex items-center justify-center">{row.avatar}</span>
-          <span className="text-[#424242]">{row.name}</span>
+          <Avatar src={row.avatar} name={row.full_name} />
+          <span className="text-[#424242]">{row.full_name}</span>
         </div>
-      )
+      ),
+      searchKey: 'name',
     },
-    { header: 'Courses Purchased', key: 'courses', className: 'text-[#424242]' },
-    { header: 'Email', key: 'email', className: 'text-[#424242]' },
+    { header: 'Courses Purchased', key: 'course_enrollment', className: 'text-[#424242]', searchKey: 'courses' },
+    { header: 'Email', key: 'email', className: 'text-[#424242]', searchKey: 'email' },
     { header: 'Phone', key: 'phone', className: 'text-[#424242]' },
-    { header: 'Location', key: 'location', className: 'text-[#424242]' },
-    { header: 'Registered On', key: 'registeredOn', className: 'text-[#424242]' },
+    { header: 'Location', key: 'city', className: 'text-[#424242]', sortable: true },
+    {
+      header: 'Registered On', key: 'created_at', render: (row) => {
+        if (!row.created_at) return "—";
+        const date = new Date(row.created_at);
+        return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      }, className: 'text-[#424242]'
+    },
     {
       header: '',
       key: 'actions',
       render: () => (
         <button className="text-gray-400 hover:text-gray-600">⋮</button>
-      )
-    }
+      ),
+    },
   ];
 
   return (
     <div className="p-6">
-      {/* <h1 className="text-2xl font-bold mb-6">Students</h1>
-      <div className="bg-white rounded-lg shadow-lg p-4">
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Enrolled Courses
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                <td className="px-6 py-4 whitespace-nowrap">john@example.com</td>
-                <td className="px-6 py-4 whitespace-nowrap">3</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <button className="text-blue-500 hover:text-blue-700">View Details</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div> */}
-      <div className='h-full bg-white rounded-lg shadow'>
-        <DataTable
-          title="Students"
-          columns={studentsColumns}
-          data={studentsData}
-          showSearch={true}
-          showSortBy={true}
-          searchPlaceholder="Search"
-          showPagination={true}
-        />
+      <div className="h-full bg-white rounded-lg shadow">
+        {loading ? (
+          <div className="p-6 flex justify-center h-full items-center text-gray-600">
+                  <Loader />
+          </div>
+        ) : (
+          <DataTable
+            title="Students"
+            columns={studentsColumns}
+            data={students}
+            showSearch={true}
+            showSortBy={true}
+            searchPlaceholder="Search"
+            showPagination={true}
+          />
+        )}
       </div>
     </div>
   );

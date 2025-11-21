@@ -1,107 +1,132 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { protectedAPI } from "../../../api/axiosClient";
+import Loader from "../../../components/common/Loader";
 
 const UserInfo = () => {
-  const user = useSelector((state) => state.auth.user); // Fetch auth/me data from Redux
-  const tenant = useSelector((state) => state.auth.tenant); // if stored
-  console.log("User Info:", user, tenant);
+  const user = useSelector((state) => state.auth.user);
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState({});
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    countryCode: "+92",
+    full_name: "",
+    phone_number: "",
     address: "",
     city: "",
     state: "",
-    zipCode: "",
-    instituteCode: "",
-    instituteName: "",
+    zip_code: "",
+    email: ""
   });
 
-  useEffect(() => {
-    if (user) {
+  const fetchUserInfo = async () => {
+    try {
+      setLoading(true);
+      const res = await protectedAPI.authMe();
+
+      const data = res?.user || {};
+
+      setUserInfo(data);
+
       setFormData({
-        name: user.full_name || "",
-        email: user.email || "",
-        phone: user.phone_number || "",
-        countryCode: "+92", // default
-        address: user.address?.line1 || "",
-        city: user.address?.city || "",
-        state: user.address?.state || "",
-        zipCode: user.address?.postal_code || "",
-        instituteCode: tenant?.id || "",
-        instituteName: tenant?.tenant_name || "",
+        full_name: data.full_name || "",
+        email: data.email || "",
+        phone_number: data.phone_number || "",
+        address: data.address?.line1 || "",
+        city: data.address?.city || "",
+        state: data.address?.state || "",
+        zip_code: data.address?.postal_code || "",
       });
+
+    } catch (err) {
+      console.error("Failed to fetch user info:", err);
+    } finally {
+      setLoading(false);
     }
-  }, [user, tenant]);
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
+  const handleUpdate = async () => {
+    try {
+      setLoading(true);
+
+      const payload = {
+        full_name: formData.full_name,
+        phone_number: formData.phone_number,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip_code: formData.zip_code,
+      };
+
+      const res = await protectedAPI.updateUserInfo(payload);
+
+      setIsEditing(false);
+      fetchUserInfo();
+
+    } catch (err) {
+      console.error("Update failed:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="p-6 flex justify-center h-full items-center text-gray-600">
+        <Loader />
+      </div>
+    );
+
   return (
     <div>
-      {/* ---------- ROW 1 ---------- */}
+      {/* NAME */}
       <div className="grid grid-cols-2 gap-6 mb-6">
         <div>
           <label className="block text-sm font-medium mb-2">Name</label>
           <input
             type="text"
             disabled={!isEditing}
-            value={formData.name}
-            onChange={(e) => handleInputChange("name", e.target.value)}
-            className={`w-full px-4 py-2 border border-neutral-300 rounded-lg ${
-              isEditing ? "bg-white" : "bg-gray-100"
-            }`}
+            value={formData.full_name}
+            onChange={(e) => handleInputChange("full_name", e.target.value)}
+            className={`w-full px-4 py-2 border rounded-lg ${isEditing ? "bg-white" : "bg-gray-100"
+              }`}
           />
         </div>
 
+        {/* EMAIL */}
         <div>
           <label className="block text-sm font-medium mb-2">Email</label>
           <input
             type="email"
-            disabled={!isEditing}
+            disabled
             value={formData.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
-            className={`w-full px-4 py-2 border border-neutral-300 rounded-lg ${
-              isEditing ? "bg-white" : "bg-gray-100"
-            }`}
+            className="w-full px-4 py-2 border rounded-lg bg-gray-100"
           />
         </div>
       </div>
 
-      {/* ---------- PHONE ---------- */}
+      {/* PHONE */}
       <div className="mb-6">
         <label className="block text-sm font-medium mb-2">Phone</label>
-        <div className="flex gap-4">
-          <select
-            disabled={!isEditing}
-            value={formData.countryCode}
-            onChange={(e) => handleInputChange("countryCode", e.target.value)}
-            className={`w-24 px-3 py-2 border border-neutral-300 rounded-lg ${
-              isEditing ? "bg-white" : "bg-gray-100"
+        <input
+          type="text"
+          disabled={!isEditing}
+          value={formData.phone_number}
+          onChange={(e) => handleInputChange("phone_number", e.target.value)}
+          className={`w-full px-4 py-2 border rounded-lg ${isEditing ? "bg-white" : "bg-gray-100"
             }`}
-          >
-            <option value="+92">+92</option>
-            <option value="+1">+1</option>
-            <option value="+44">+44</option>
-          </select>
-
-          <input
-            type="text"
-            disabled={!isEditing}
-            value={formData.phone}
-            onChange={(e) => handleInputChange("phone", e.target.value)}
-            className={`flex-1 px-4 py-2 border border-neutral-300 rounded-lg ${
-              isEditing ? "bg-white" : "bg-gray-100"
-            }`}
-          />
-        </div>
+        />
       </div>
 
-      {/* ---------- ADDRESS ---------- */}
+      {/* ADDRESS */}
       <div className="mb-6">
         <label className="block text-sm font-medium mb-2">Address</label>
         <input
@@ -109,13 +134,12 @@ const UserInfo = () => {
           disabled={!isEditing}
           value={formData.address}
           onChange={(e) => handleInputChange("address", e.target.value)}
-          className={`w-full px-4 py-2 border border-neutral-300 rounded-lg ${
-            isEditing ? "bg-white" : "bg-gray-100"
-          }`}
+          className={`w-full px-4 py-2 border rounded-lg ${isEditing ? "bg-white" : "bg-gray-100"
+            }`}
         />
       </div>
 
-      {/* ---------- CITY / STATE ---------- */}
+      {/* CITY & STATE */}
       <div className="grid grid-cols-2 gap-6 mb-6">
         <div>
           <label className="block text-sm font-medium mb-2">City</label>
@@ -124,9 +148,8 @@ const UserInfo = () => {
             disabled={!isEditing}
             value={formData.city}
             onChange={(e) => handleInputChange("city", e.target.value)}
-            className={`w-full px-4 py-2 border border-neutral-300 rounded-lg ${
-              isEditing ? "bg-white" : "bg-gray-100"
-            }`}
+            className={`w-full px-4 py-2 border rounded-lg ${isEditing ? "bg-white" : "bg-gray-100"
+              }`}
           />
         </div>
 
@@ -137,58 +160,29 @@ const UserInfo = () => {
             disabled={!isEditing}
             value={formData.state}
             onChange={(e) => handleInputChange("state", e.target.value)}
-            className={`w-full px-4 py-2 border border-neutral-300 rounded-lg ${
-              isEditing ? "bg-white" : "bg-gray-100"
-            }`}
+            className={`w-full px-4 py-2 border rounded-lg ${isEditing ? "bg-white" : "bg-gray-100"
+              }`}
           />
         </div>
       </div>
 
-      {/* ---------- ZIP ---------- */}
+      {/* ZIP CODE */}
       <div className="mb-6">
         <label className="block text-sm font-medium mb-2">Zip Code</label>
         <input
           type="text"
           disabled={!isEditing}
-          value={formData.zipCode}
-          onChange={(e) => handleInputChange("zipCode", e.target.value)}
-          className={`w-full px-4 py-2 border border-neutral-300 rounded-lg ${
-            isEditing ? "bg-white" : "bg-gray-100"
-          }`}
+          value={formData.zip_code}
+          onChange={(e) => handleInputChange("zip_code", e.target.value)}
+          className={`w-full px-4 py-2 border rounded-lg ${isEditing ? "bg-white" : "bg-gray-100"
+            }`}
         />
       </div>
 
-      {/* ---------- TENANT INFO (READ ONLY ALWAYS) ---------- */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Institute Code
-          </label>
-          <input
-            type="text"
-            disabled
-            value={formData.instituteCode}
-            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-gray-100"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Institute Name
-          </label>
-          <input
-            type="text"
-            disabled
-            value={formData.instituteName}
-            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-gray-100"
-          />
-        </div>
-      </div>
-
-      {/* ---------- BUTTON ---------- */}
+      {/* BUTTON */}
       <button
-        onClick={() => setIsEditing(!isEditing)}
-        className="px-8 py-2.5 bg-[#664286] text-white rounded-lg hover:bg-[#5a356d] transition-colors font-medium"
+        onClick={() => (isEditing ? handleUpdate() : setIsEditing(true))}
+        className="px-8 py-2.5 bg-[#664286] text-white rounded-lg hover:bg-[#5a356d] transition-colors"
       >
         {isEditing ? "Update Info" : "Edit Info"}
       </button>
